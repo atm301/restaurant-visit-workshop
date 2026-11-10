@@ -143,7 +143,7 @@ tr:nth-child(even) td{background:#f7fbfb}
 .col.blue li::before{content:'▸';color:var(--blue);font-weight:900}
 
 /* callout */
-.callout{background:var(--org-l);border:1px solid #f7d9bf;border-left:5px solid var(--org);border-radius:13px;padding:14px 17px;margin:13px 0;font-size:.92rem;line-height:1.75}
+.callout{background:var(--org-l);border:1px solid #bfe0e0;border-left:5px solid var(--org);border-radius:13px;padding:14px 17px;margin:13px 0;font-size:.92rem;line-height:1.75}
 .callout.ok{background:#f3fbf7;border-color:#cdeadd;border-left-color:var(--green)}
 .callout.warn{background:#fffaf0;border-color:#f6e2b8;border-left-color:var(--amber)}
 .callout.bad{background:#fff5f4;border-color:#f6d7d2;border-left-color:var(--red)}
@@ -620,6 +620,9 @@ footer a:hover{text-decoration:underline}
   <h3 class="h3">🧮 120 秒挑戰：寫下你的一句話客群</h3>
   <p class="lead">五格填完，下面會自動組成一句話。寫完跟隔壁的老闆交換念出來，問他：聽完想不想去你的店？</p>
   <div class="fill">
+    <p class="muted-note" style="margin:0 0 6px"><b>不知道怎麼寫？先看跟你同一型的店怎麼寫：</b></p>
+    <div class="chips" id="audExPick"></div>
+    <div class="callout" id="audExOut" style="margin:10px 0 4px;font-size:.9rem"></div>
     <label for="aud_where">在哪裡</label>
     <input id="aud_where" data-aud="where" type="text" maxlength="40" placeholder="例如：西屯辦公大樓">
     <label for="aud_who">是誰</label>
@@ -1885,11 +1888,35 @@ footer a:hover{text-decoration:underline}
   }
 
   /* ---------- 一句話客群 ---------- */
-  var AUDDEMO={where:'西屯辦公大樓',who:'上班族',when:'午休只剩 40 分鐘',want:'一碗熱騰騰、份量夠的牛肉麵',block:'怕排隊等太久、回公司遲到'};
-  function audText(){
-    var g=function(k){return (state.aud[k]||'').trim();};
-    if(!['where','who','when','want','block'].some(function(k){return g(k);}))return '';
+  // 範例依店型切換：報到選的店型或「換你的店」點的店型決定預設，也可以點別的店型參考
+  var AUDEX={
+    demo:{n:'牛肉麵（簡報範例）',where:'西屯辦公大樓',who:'上班族',when:'午休只剩 40 分鐘',want:'一碗熱騰騰、份量夠的牛肉麵',block:'怕排隊等太久、回公司遲到'},
+    old:{n:'在地老店・小吃外帶',where:'市場周邊住宅區',who:'雙薪家庭媽媽',when:'下班順路買菜、懶得再多炒一道菜',want:'帶一份熟悉的烤鴨或滷味回家加菜',block:'不知道今天還剩多少，怕跑一趟撲空'},
+    hot:{n:'火鍋・燒肉・聚餐',where:'附近商辦大樓',who:'負責揪團的行政或小主管',when:'月底要辦 10 人部門聚餐',want:'有包廂、可以先訂位、每人 600 元內的燒肉',block:'打電話沒人接，不確定還有沒有位子'},
+    brunch:{n:'早午餐・咖啡・輕食',where:'學校附近住宅區',who:'年輕媽媽',when:'平日早上送完小孩、有兩小時空檔',want:'找個好拍、坐得久的地方吃早午餐聊天',block:'怕到了才發現客滿要排隊'},
+    'new':{n:'準備開店・小店起步',where:'新店面方圓 1 公里',who:'通勤族和鄰居',when:'每天下班回家經過、肚子有點餓',want:'順手買一份熱熱的小點心帶回家',block:'還不認識這家新店，不知道好不好吃、幾點開'},
+    chain:{n:'多店・準備加盟',where:'各分店周邊 2 公里',who:'家庭客',when:'週末想吃熟悉的味道、又不想跑太遠',want:'找到離家最近、現在有營業的分店',block:'搜品牌名跳出好幾家，不知道哪家近、營業時間對不對'},
+    b2b:{n:'供應商・設備・行銷・協會',where:'你的服務區域內',who:'餐廳老闆',when:'開業 1 到 3 年、營收卡住又缺人手',want:'找一個省人力、看得到成效的做法',block:'被太多業務推銷過，不太相信新廠商'}
+  };
+  var AUDK=['where','who','when','want','block'], audEx='';
+  function audSentence(o){
+    var g=function(k){return (o[k]||'').trim();};
+    if(!AUDK.some(function(k){return g(k);}))return '';
     return '在'+(g('where')||'＿＿')+'的'+(g('who')||'＿＿')+'，在'+(g('when')||'＿＿')+'的時候，想要'+(g('want')||'＿＿')+'，但是'+(g('block')||'＿＿')+'。';
+  }
+  function audText(){return audSentence(state.aud);}
+  function audExAuto(){
+    if(state.type&&AUDEX[state.type])return state.type;
+    return state.cat==='供應商・設備・行銷・協會'?'b2b':'demo';
+  }
+  function audExCur(){return audEx||audExAuto();}
+  function renderAudEx(){
+    var h=document.getElementById('audExPick'); if(!h)return;
+    var cur=audExCur(), e=AUDEX[cur];
+    h.innerHTML=Object.keys(AUDEX).map(function(k){return '<button class="chip'+(k===cur?' on':'')+'" type="button" data-audex="'+k+'" aria-pressed="'+(k===cur)+'">'+esc(AUDEX[k].n)+'</button>';}).join('');
+    AUDK.forEach(function(k){var el=document.getElementById('aud_'+k);if(el)el.placeholder='例如：'+e[k];});
+    var o=document.getElementById('audExOut');
+    if(o)o.innerHTML='<b>'+esc(e.n)+'</b>'+(!audEx&&cur!=='demo'?'（依你的店型自動挑的）':'')+'：'+esc(audSentence(e));
   }
   function audCalc(){var el=document.getElementById('audOut');if(!el)return;var t=audText();el.textContent=t||'五格填完，這裡會組成你的一句話客群。';}
 
@@ -2217,7 +2244,7 @@ footer a:hover{text-decoration:underline}
     renderChecks('find5Host',FIND5,'find5',true); find5Verdict();
     renderChecks('healthHost',HEALTH,'health',true,true); healthCalc();
     renderChecks('todo7Host',TODO7,'todo',true); todoOut();
-    renderTypes(); myScore(); updateHud();
+    renderTypes(); renderAudEx(); myScore(); updateHud();
     setVals('aud_',state.aud,['where','who','when','want','block']);
     setVals('push_',state.push,['item','reason','limit','btn']);
     setVals('mv_',state.mv,['type','door','move','kpi']);
@@ -2229,7 +2256,7 @@ footer a:hover{text-decoration:underline}
 
   /* ---------- 事件綁定 ---------- */
   document.addEventListener('click',function(e){
-    var t=e.target.closest?e.target.closest('[data-tab],[data-poll],[data-pf],[data-cp],[data-ex],[data-m],[data-wr],[data-warm],[data-peek],[data-copyfrom],[data-type],#typeUse'):null;
+    var t=e.target.closest?e.target.closest('[data-tab],[data-poll],[data-pf],[data-cp],[data-ex],[data-m],[data-wr],[data-warm],[data-peek],[data-copyfrom],[data-type],[data-audex],#typeUse'):null;
     if(!t)return;
     if(t.classList.contains('tab-btn')){switchTab(t.getAttribute('data-tab'));return;}
     if(t.hasAttribute('data-poll')){vote(t.getAttribute('data-poll'),t.getAttribute('data-v'));return;}
@@ -2246,7 +2273,8 @@ footer a:hover{text-decoration:underline}
     if(t.hasAttribute('data-copyfrom')){
       var src=document.getElementById(t.getAttribute('data-copyfrom'));
       if(src){copyTxt(t,src.textContent.trim(),'✓ 已複製，空格的地方記得改成你的店');track('copy_push',{id:t.getAttribute('data-copyfrom')});} return;}
-    if(t.hasAttribute('data-type')){state.type=t.getAttribute('data-type');save();renderTypes();syncRow();track('pick_type',{t:state.type});return;}
+    if(t.hasAttribute('data-type')){state.type=t.getAttribute('data-type');audEx='';save();renderTypes();renderAudEx();syncRow();track('pick_type',{t:state.type});return;}
+    if(t.hasAttribute('data-audex')){audEx=t.getAttribute('data-audex');renderAudEx();track('aud_example',{k:audEx});return;}
     if(t.id==='typeUse'){
       var ty=TYPES.filter(function(x){return x.k===state.type;})[0]; if(!ty)return;
       state.mv.type=ty.n; state.mv.door=ty.d1; if(!state.mv.move)state.mv.move=ty.move;
@@ -2284,7 +2312,7 @@ footer a:hover{text-decoration:underline}
 
   function on(id,fn){var el=document.getElementById(id);if(el)el.addEventListener('click',function(e){e.preventDefault();fn(e,el);});}
   on('heroReg',function(){loggedIn()?switchTab('door1'):openReg();});
-  on('audDemo',function(){Object.keys(AUDDEMO).forEach(function(k){state.aud[k]=AUDDEMO[k];});save();setVals('aud_',state.aud,['where','who','when','want','block']);audCalc();updateHud();toast('已填入範例，照著改成你的店');});
+  on('audDemo',function(){var e=AUDEX[audExCur()];AUDK.forEach(function(k){state.aud[k]=e[k];});save();setVals('aud_',state.aud,AUDK);audCalc();updateHud();toast('已填入「'+e.n+'」的範例，照著改成你的店');});
   on('audCopy',function(e,el){var t=audText();if(!t){toast('五格至少填一格');return;}copyTxt(el,t);track('copy_aud',{});});
   on('audSend',function(){var t=audText();if(!t){toast('五格至少填一格');return;}sendText('m1','【一句話客群】\n'+t,'audStatus','✅ 一句話客群已交件');});
   on('pushDemo',function(){Object.keys(PUSHDEMO).forEach(function(k){state.push[k]=PUSHDEMO[k];});save();setVals('push_',state.push,['item','reason','limit','btn']);pushCalc();updateHud();toast('已填入範例，照著改成你的店');});

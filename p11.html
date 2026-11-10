@@ -1,7 +1,7 @@
 
   /* ---------- 事件綁定 ---------- */
   document.addEventListener('click',function(e){
-    var t=e.target.closest?e.target.closest('[data-tab],[data-poll],[data-pf],[data-cp],[data-ex],[data-m],[data-wr],[data-warm],[data-peek],[data-copyfrom],[data-type],#typeUse'):null;
+    var t=e.target.closest?e.target.closest('[data-tab],[data-poll],[data-pf],[data-cp],[data-ex],[data-m],[data-wr],[data-warm],[data-peek],[data-copyfrom],[data-type],[data-audex],#typeUse'):null;
     if(!t)return;
     if(t.classList.contains('tab-btn')){switchTab(t.getAttribute('data-tab'));return;}
     if(t.hasAttribute('data-poll')){vote(t.getAttribute('data-poll'),t.getAttribute('data-v'));return;}
@@ -18,7 +18,8 @@
     if(t.hasAttribute('data-copyfrom')){
       var src=document.getElementById(t.getAttribute('data-copyfrom'));
       if(src){copyTxt(t,src.textContent.trim(),'✓ 已複製，空格的地方記得改成你的店');track('copy_push',{id:t.getAttribute('data-copyfrom')});} return;}
-    if(t.hasAttribute('data-type')){state.type=t.getAttribute('data-type');save();renderTypes();syncRow();track('pick_type',{t:state.type});return;}
+    if(t.hasAttribute('data-type')){state.type=t.getAttribute('data-type');audEx='';save();renderTypes();renderAudEx();syncRow();track('pick_type',{t:state.type});return;}
+    if(t.hasAttribute('data-audex')){audEx=t.getAttribute('data-audex');renderAudEx();track('aud_example',{k:audEx});return;}
     if(t.id==='typeUse'){
       var ty=TYPES.filter(function(x){return x.k===state.type;})[0]; if(!ty)return;
       state.mv.type=ty.n; state.mv.door=ty.d1; if(!state.mv.move)state.mv.move=ty.move;
@@ -56,7 +57,7 @@
 
   function on(id,fn){var el=document.getElementById(id);if(el)el.addEventListener('click',function(e){e.preventDefault();fn(e,el);});}
   on('heroReg',function(){loggedIn()?switchTab('door1'):openReg();});
-  on('audDemo',function(){Object.keys(AUDDEMO).forEach(function(k){state.aud[k]=AUDDEMO[k];});save();setVals('aud_',state.aud,['where','who','when','want','block']);audCalc();updateHud();toast('已填入範例，照著改成你的店');});
+  on('audDemo',function(){var e=AUDEX[audExCur()];AUDK.forEach(function(k){state.aud[k]=e[k];});save();setVals('aud_',state.aud,AUDK);audCalc();updateHud();toast('已填入「'+e.n+'」的範例，照著改成你的店');});
   on('audCopy',function(e,el){var t=audText();if(!t){toast('五格至少填一格');return;}copyTxt(el,t);track('copy_aud',{});});
   on('audSend',function(){var t=audText();if(!t){toast('五格至少填一格');return;}sendText('m1','【一句話客群】\n'+t,'audStatus','✅ 一句話客群已交件');});
   on('pushDemo',function(){Object.keys(PUSHDEMO).forEach(function(k){state.push[k]=PUSHDEMO[k];});save();setVals('push_',state.push,['item','reason','limit','btn']);pushCalc();updateHud();toast('已填入範例，照著改成你的店');});
