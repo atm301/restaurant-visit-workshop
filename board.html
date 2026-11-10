@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>投影牆｜美食映象餐飲學院 餐廳來客四道門</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%BA%3C/text%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--teal:#5fd0c8;--mint:#b8e2e0;--sun:#f29a4e;--deep:#0b3236;--line:rgba(184,226,224,.24)}
+body{font-family:'Noto Sans TC',system-ui,sans-serif;background:
+  radial-gradient(1100px 620px at 82% -8%,rgba(14,124,128,.3),transparent 62%),
+  radial-gradient(900px 520px at 6% 108%,rgba(232,120,46,.18),transparent 60%),var(--deep);
+  color:#eaf6f6;min-height:100vh;padding:26px 30px 20px;line-height:1.55}
+header{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+header h1{font-size:1.5rem;font-weight:900}
+header .sub{font-size:.9rem;color:var(--mint);font-weight:400}
+.live{margin-left:auto;display:flex;align-items:center;gap:9px;background:rgba(14,124,128,.2);border:1px solid var(--line);border-radius:999px;padding:7px 17px;font-weight:800;font-size:.9rem}
+.live i{width:10px;height:10px;border-radius:50%;background:#8ff0b4;animation:bl 1.5s infinite}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:.3}}
+.stats{display:grid;gap:16px;grid-template-columns:repeat(5,1fr);margin-bottom:22px}
+.s{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:20px;padding:18px 20px}
+.s b{display:block;font-size:3.1rem;font-weight:900;line-height:1.05;color:#fff}
+.s span{font-size:.95rem;color:var(--mint);font-weight:800}
+.s.o b{color:var(--sun)} .s.g b{color:#ffc58a}
+.main{display:grid;gap:18px;grid-template-columns:1.25fr 1fr;align-items:start}
+.panel{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:22px;padding:22px 24px}
+.panel h2{font-size:1.15rem;font-weight:900;margin-bottom:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.panel h2 small{font-weight:400;color:var(--mint);font-size:.85rem}
+.qq{font-size:1.5rem;font-weight:900;margin-bottom:16px;line-height:1.4}
+.opt{margin-bottom:13px}
+.opt .top{display:flex;align-items:center;gap:11px;font-size:1.1rem;font-weight:700;margin-bottom:5px}
+.opt .k{width:34px;height:34px;flex:0 0 auto;border-radius:50%;background:rgba(184,226,224,.2);color:var(--mint);font-weight:900;display:flex;align-items:center;justify-content:center;font-size:1rem}
+.opt.ok .k{background:#5fd0c8;color:#06343a}
+.opt .lb{flex:1}
+.opt .pc{font-weight:900;font-size:1.3rem;color:#fff;min-width:118px;text-align:right}
+.tr{height:14px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden}
+.tr i{display:block;height:100%;background:linear-gradient(90deg,#0e7c80,var(--sun));transition:width .5s}
+.opt.ok .tr i{background:linear-gradient(90deg,#5fd0c8,#ffc58a)}
+.hint{color:var(--mint);font-size:.88rem;margin-top:14px}
+.feed{display:flex;flex-direction:column;gap:12px;max-height:62vh;overflow:hidden}
+.fi{background:rgba(255,255,255,.055);border:1px solid var(--line);border-left:5px solid var(--sun);border-radius:15px;padding:13px 16px}
+.fi .fh{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-bottom:6px;font-size:.88rem}
+.fi .nm{font-weight:900;font-size:1rem}
+.fi .tg{background:rgba(242,154,78,.22);color:var(--sun);border-radius:999px;padding:2px 11px;font-weight:800;font-size:.78rem}
+.fi .tm{margin-left:auto;color:var(--mint);font-size:.8rem}
+.fi .bd{font-size:.95rem;color:#dcefee;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.fi img{max-width:100%;border-radius:11px;margin-top:6px;max-height:180px;object-fit:cover}
+.empty{color:var(--mint);font-size:.95rem}
+footer{margin-top:20px;color:var(--mint);font-size:.85rem;display:flex;gap:14px;flex-wrap:wrap}
+@media(max-width:1200px){.stats{grid-template-columns:repeat(3,1fr)}.main{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div><h1>📺 餐廳有曝光，為什麼客人還是不來？<span class="sub">　美食映象餐飲學院 · 看對人 → 被看見 → 走進來 → 再回來</span></h1></div>
+  <div class="live"><i></i><span id="liveTxt">即時更新</span></div>
+</header>
+
+<div class="stats" id="stats"></div>
+
+<div class="main">
+  <div class="panel">
+    <h2>❓ 互動題即時結果<small id="qNav">← → 換題　空白鍵暫停輪播</small></h2>
+    <div id="pollBox"></div>
+  </div>
+  <div class="panel">
+    <h2>📤 最新交件<small id="subCnt"></small></h2>
+    <div class="feed" id="feed"></div>
+  </div>
+</div>
+
+<footer>
+  <div>美食映象餐飲學院 · 餐飲網路行銷與顧客轉換</div>
+  <div id="coh"></div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+var SUPA='https://dpglkagtzdwiovzbtase.supabase.co';
+var KEY='sb_publishable_Tuj9p4DXvO-jEqVcBnumTg_TqZ1NnRu';
+var COURSE='restaurant-visit-workshop';
+var ANS={q1:'C',q2:'D',q3:'C',q4:'C',q5:'A',q6:'B',q7:'B'};
+var QT={
+  fake:{t:'破冰：以下四件事，哪一件是假的？',o:[['1','錄製 Podcast 100 集'],['2','一個月虛擬貨幣交易 1 億美金'],['3','去過非洲史瓦帝尼演講'],['4','每年演講 200 場以上']]},
+  q1:{t:'哪一句客群描述，最能幫你做行銷？',o:[['A','18 到 45 歲、喜歡美食的人'],['B','所有路過的人'],['C','附近上班族，午休只有 50 分鐘、怕排隊'],['D','網紅和美食部落客']]},
+  q2:{t:'哪一個「不是」Google 地圖的本地排名因素？',o:[['A','關聯性'],['B','距離'],['C','顯著性'],['D','付費就能提高自然排名']]},
+  q3:{t:'一支 57 秒的老闆故事影片，那個週末營收多少？',o:[['A','約 3,000 美元'],['B','約 8,000 美元'],['C','約 24,000 美元'],['D','約 50,000 美元']]},
+  q4:{t:'限量 100 碗的預約，最快多久就訂完？',o:[['A','1 天'],['B','3 小時'],['C','10 分鐘'],['D','1 週']]},
+  q5:{t:'第一張集點卡，要集幾點最好？',o:[['A','3 點'],['B','10 點'],['C','20 點'],['D','50 點']]},
+  q6:{t:'有 50 萬粉絲的店，為什麼還是收了？',o:[['A','被負評攻擊'],['B','食材成本上漲＋缺工'],['C','帳號被封'],['D','老闆退休']]},
+  q7:{t:'哪一則推播，最能讓客人今天就來？',o:[['A','新品上市，歡迎品嚐'],['B','寒流來了，好友加點免費，只到週日，回覆訂位'],['C','全品項 9 折'],['D','感謝大家一直以來的支持']]}
+};
+var TASKNA={m1:'① 一句話客群',m2:'② 商家或短影音',m3:'③ 推播或評論回覆',m4:'④ 熟客活動',m5:'⑤ 這週第一招',push:'③ 推播組裝',health:'🩺 健檢',extra:'補充或提問'};
+var KEYS=Object.keys(QT);
+
+function H(){return {apikey:KEY,Authorization:'Bearer '+KEY};}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c];});}
+function q(s){return document.querySelector(s);}
+function today(){var d=new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}
+var COHORT=(new URLSearchParams(location.search).get('c')||'').trim()||today();
+function pct(a,b){return b?Math.round(a/b*100):0;}
+function fmt(s){try{return new Date(s).toLocaleTimeString('zh-TW',{hour12:false,hour:'2-digit',minute:'2-digit'});}catch(e){return '';}}
+
+var D={students:[],subs:[]}, idx=0, auto=true;
+q('#coh').textContent='梯次 '+COHORT;
+
+async function load(){
+  var base='course=eq.'+encodeURIComponent(COURSE)+'&cohort=eq.'+encodeURIComponent(COHORT);
+  try{
+    var a=await Promise.all([
+      fetch(SUPA+'/rest/v1/lw_line_students?'+base+'&select=code,name,office,quiz',{headers:H()}).then(function(r){return r.json();}),
+      fetch(SUPA+'/rest/v1/lw_workshop_submissions?'+base+'&select=team,submitter,task,kind,content,image_url,created_at&order=created_at.desc&limit=12',{headers:H()}).then(function(r){return r.json();})
+    ]);
+    D.students=Array.isArray(a[0])?a[0]:[]; D.subs=Array.isArray(a[1])?a[1]:[];
+    q('#liveTxt').textContent='即時更新　'+new Date().toLocaleTimeString('zh-TW',{hour12:false});
+    render();
+  }catch(e){q('#liveTxt').textContent='連線中…';}
+}
+
+function qz(s){return (s&&s.quiz&&typeof s.quiz==='object')?s.quiz:{};}
+function render(){
+  var st=D.students, who={}; D.subs.forEach(function(x){who[x.submitter]=1;});
+  var tot=0,right=0;
+  st.forEach(function(s){var o=qz(s);Object.keys(ANS).forEach(function(k){if(o[k]){tot++;if(o[k]===ANS[k])right++;}});});
+  var hs=st.filter(function(s){var a=qz(s).health;return Array.isArray(a)&&a.some(Boolean);});
+  var avg=hs.length?hs.reduce(function(n,s){return n+qz(s).health.filter(Boolean).length;},0)/hs.length:0;
+  q('#stats').innerHTML=[
+    ['報到人數',st.length,''],['交件人數',Object.keys(who).length,'g'],
+    ['全場答對率',pct(right,tot)+'%','o'],['完成健檢',hs.length,''],['健檢平均',(Math.round(avg*10)/10)+' 分','g']
+  ].map(function(x){return '<div class="s '+x[2]+'"><b>'+x[1]+'</b><span>'+x[0]+'</span></div>';}).join('');
+  renderPoll(); renderFeed();
+}
+function renderPoll(){
+  var k=KEYS[idx], P=QT[k], cnt={}, n=0;
+  D.students.forEach(function(s){var v=qz(s)[k];if(v){cnt[v]=(cnt[v]||0)+1;n++;}});
+  var right=ANS[k];
+  q('#pollBox').innerHTML='<div class="qq">'+esc(P.t)+'</div>'
+    +P.o.map(function(o){
+      var c=cnt[o[0]]||0, p=pct(c,n), on=right===o[0];
+      return '<div class="opt'+(on?' ok':'')+'"><div class="top"><span class="k">'+o[0]+'</span>'
+        +'<span class="lb">'+esc(o[1])+(on?' ✅':'')+'</span><span class="pc">'+c+' 人 '+p+'%</span></div>'
+        +'<div class="tr"><i style="width:'+p+'%"></i></div></div>';
+    }).join('')
+    +'<div class="hint">'+n+' 人作答'+(right?('　正解 '+right):'　（這題沒有正解）')
+    +'　第 '+(idx+1)+' / '+KEYS.length+' 題'+(auto?'　自動輪播中':'　已暫停')+'</div>';
+}
+function renderFeed(){
+  q('#subCnt').textContent='共 '+D.subs.length+' 筆（只顯示最新 12 筆）';
+  q('#feed').innerHTML=D.subs.length?D.subs.slice(0,6).map(function(x){
+    var body=x.kind==='image'
+      ? '<img src="'+esc(x.image_url)+'" loading="lazy" alt="交件">'
+      : '<div class="bd">'+esc((x.content||'').slice(0,160))+((x.content||'').length>160?'…':'')+'</div>';
+    return '<div class="fi"><div class="fh"><span class="nm">'+esc(x.submitter||'')+'</span>'
+      +'<span class="tg">'+esc(TASKNA[x.task]||x.task)+'</span><span class="tm">'+fmt(x.created_at)+'</span></div>'+body+'</div>';
+  }).join(''):'<p class="empty">還沒有交件。學員在網站「🩺 健檢與帶走」頁送出的作業和健檢，會即時出現在這裡。</p>';
+}
+
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowRight'){idx=(idx+1)%KEYS.length;auto=false;renderPoll();}
+  if(e.key==='ArrowLeft'){idx=(idx-1+KEYS.length)%KEYS.length;auto=false;renderPoll();}
+  if(e.key===' '){e.preventDefault();auto=!auto;renderPoll();}
+});
+load();
+setInterval(load,12000);
+setInterval(function(){if(auto){idx=(idx+1)%KEYS.length;renderPoll();}},11000);
+})();
+</script>
+</body>
+</html>

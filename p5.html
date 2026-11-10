@@ -1,0 +1,177 @@
+<section class="tab-section" data-tab="door3"><div class="wrap">
+  <span class="sec-tag">PART 3　走進來</span>
+  <h2 class="sec-title">走進來：<span class="em">顧客轉換</span></h2>
+  <p class="lead">從線上關注，到實際來店。這一段帶走：5 個常見的轉換漏洞、轉換公式：理由＋期限＋按鈕、AI 寫推播與評論回覆。</p>
+
+  <h3 class="h3">曝光沒變成來客？通常卡在這 5 個漏洞</h3>
+  <div class="grid g3">
+    <div class="card x"><h3><span class="num">1</span>找不到怎麼訂</h3><p>只能私訊，電話常沒人接。</p></div>
+    <div class="card x"><h3><span class="num">2</span>資訊過期</h3><p>營業時間、菜單、價格對不上。</p></div>
+    <div class="card x"><h3><span class="num">3</span>沒有來的理由</h3><p>貼文很美，但沒有期限和誘因。</p></div>
+    <div class="card x"><h3><span class="num">4</span>步驟太多</h3><p>要跳 3 個頁面才訂得到位。</p></div>
+    <div class="card x"><h3><span class="num">5</span>不知道哪招有效</h3><p>沒有追蹤來源，只能憑感覺。</p></div>
+  </div>
+  <div class="card dk" style="margin-top:13px"><p><b>先補漏洞，再加曝光。</b>同樣的預算，效果可以差好幾倍。</p></div>
+
+  <h3 class="h3">轉換公式：理由＋期限＋一個按鈕</h3>
+  <div class="grid g3">
+    <div class="card o"><h3>💡 理由</h3><p><b>為什麼要來？</b><br>限量、新品、只給好友</p></div>
+    <div class="card a"><h3>⏰ 期限</h3><p><b>為什麼是現在？</b><br>只到週日、只有 3 天、雨天限定</p></div>
+    <div class="card dk"><h3>👉 按鈕</h3><p><b>下一步做什麼？</b><br>立即預訂、回覆關鍵字、一鍵導航</p></div>
+  </div>
+  <div class="pushbox">
+    <div class="pt">範例：一則 LINE 推播</div>
+    <div class="pb">【週六限定】炙燒牛五花飯，只做 50 份
+只給 LINE 好友，週日賣完就沒有了
+回覆「預訂＋人數」，我直接幫你留</div>
+  </div>
+  <p class="muted-note" style="margin-top:8px">第一行是理由，第二行是期限，第三行是按鈕。每一行剛好對應一個元素，缺一個，轉換率就會掉。</p>
+
+  <h3 class="h3">🧮 推播組裝器：四格填完，自動排成一則推播</h3>
+  <div class="fill">
+    <label for="push_item">這次要推什麼</label>
+    <input id="push_item" data-push="item" type="text" maxlength="40" placeholder="例如：炙燒牛五花飯">
+    <label for="push_reason">理由：為什麼要來</label>
+    <input id="push_reason" data-push="reason" type="text" maxlength="40" placeholder="例如：週六限定，只做 50 份，只給 LINE 好友">
+    <label for="push_limit">期限：為什麼是現在</label>
+    <input id="push_limit" data-push="limit" type="text" maxlength="40" placeholder="例如：週日賣完就沒有了">
+    <label for="push_btn">按鈕：下一步怎麼做</label>
+    <input id="push_btn" data-push="btn" type="text" maxlength="40" placeholder="例如：回覆「預訂＋人數」，我直接幫你留">
+    <div class="hero-btns" style="margin-top:12px">
+      <button class="btn btn-primary btn-sm" id="pushCopy" type="button">📋 複製推播</button>
+      <button class="btn btn-ghost btn-sm" id="pushDemo" type="button">填入範例</button>
+      <button class="btn btn-ghost btn-sm" id="pushSend" type="button">📤 當成交件送出</button>
+      <span class="muted-note" id="pushStatus"></span>
+    </div>
+    <div id="pushOut" class="out">四格填完，這裡會排成一則推播。</div>
+  </div>
+
+  <h3 class="h3">🔍 已經寫好的推播？貼進來檢查三元素</h3>
+  <div class="fill">
+    <label for="chkIn">你的推播文案</label>
+    <textarea id="chkIn" placeholder="把你寫好的推播貼進來"></textarea>
+    <div class="hero-btns" style="margin-top:12px">
+      <button class="btn btn-primary btn-sm" id="chkBtn" type="button">🔍 檢查理由、期限、按鈕</button>
+      <button class="btn btn-ghost btn-sm" id="chkDemo" type="button">試試「全品項 9 折，歡迎蒞臨」</button>
+    </div>
+    <div id="chkOut"></div>
+  </div>
+
+  <div class="poll" id="poll_q4"></div>
+  <div class="peek" data-peekfor="q4"><button class="btn btn-ghost btn-sm" type="button" data-peek="q4">作答後會出現答案和案例，或按這裡直接看</button></div>
+  <div class="reveal" data-reveal="q4">
+    <div class="callout ok"><b>解答：C　最快 10 分鐘。</b>限量、只推給附近的好友、訊息裡直接附上預訂方式，三件事一起做到。</div>
+    <div class="case">
+      <div class="ch"><span class="flag">日本</span><span class="cn">長沼精肉店</span><span class="cs">肉舖兼外帶牛丼｜埼玉縣加須市，家族第三代經營</span></div>
+      <div class="cg">
+        <div class="how"><h4>怎麼做</h4><ol>
+          <li>店員在現場邀客人加 LINE 好友，搭配 LINE 的集點卡功能</li>
+          <li>每週推播約 1 次，固定在早上 8 到 9 點或晚上 10 點左右</li>
+          <li>週末只推給臨時店附近的好友：外帶牛丼限量 100 碗開放預約</li>
+        </ol></div>
+        <div class="res"><h4>成效</h4><div class="big3">10 分鐘</div><p class="muted-note">限量 100 碗最快被訂完的時間</p><ul>
+          <li>最高紀錄：一則推播約帶來 20 萬日圓營收</li>
+          <li>開帳號約 3 年累積 2,600 位好友</li>
+        </ul></div>
+      </div>
+      <div class="tw2"><b>台灣怎麼複製：</b>用 LINE 推「限量預訂」，只推給店附近的好友，訊息裡直接附上預訂方式。</div>
+      <p class="src">資料出處：LINEヤフー for Business 導入事例：長沼精肉店（2021/3/15）</p>
+    </div>
+  </div>
+
+  <h3 class="h3">國際案例｜韓國 仁川萬壽市場：下雨天一則訊息，當天食材全賣光</h3>
+  <div class="case">
+    <div class="ch"><span class="flag">韓國</span><span class="cn">瑞和商會</span><span class="cs">서화상회｜市場炸魚板棒攤，單店，老闆做了 15 年</span></div>
+    <div class="cg">
+      <div class="how"><h4>怎麼做</h4><ol>
+        <li>開 KakaoTalk 頻道（韓國版的 LINE 官方帳號），送 Kakao 購物袋和扇子給頻道好友</li>
+        <li>下雨天客人變少，就推播「只有 3 天，買 5 送 1」</li>
+        <li>訊息很短：理由清楚、有期限</li>
+      </ol></div>
+      <div class="res"><h4>成效</h4><div class="big3">全部賣光</div><p class="muted-note">下雨天推播後，當天的食材</p><ul>
+        <li>好友贈品一天就送完</li>
+        <li>頻道好友接近 600 人</li>
+        <li>多出 30 筆以上宅配訂單</li>
+      </ul></div>
+    </div>
+    <div class="tw2"><b>台灣怎麼複製：</b>下雨、寒流或離峰時段，用 LINE 推「限時 3 天」的優惠，把壞天氣變成上門的理由。</div>
+    <p class="src">資料出處：아시아경제 亞洲經濟（2023/9/7）</p>
+  </div>
+
+  <h3 class="h3">國際案例｜美國 洛杉磯：每週三晚上 6 點，固定開賣</h3>
+  <div class="case">
+    <div class="ch"><span class="flag">美國</span><span class="cn">Gooey Center</span><span class="cs">肉桂捲烘焙｜肉桂捲預購＋快閃攤，1 個中央廚房</span></div>
+    <div class="cg">
+      <div class="how"><h4>怎麼做</h4><ol>
+        <li>每週三晚上 6 點固定開放預購，品項砍到 5 項以內，限量製作</li>
+        <li>IG 簡介放預購連結，置頂「如何訂購」貼文，限時動態發完售畫面</li>
+        <li>用簡訊通知開賣、提醒取貨</li>
+      </ol></div>
+      <div class="res"><h4>成效</h4><div class="big3">50 → 500+</div><p class="muted-note">每週賣出的肉桂捲數量（不到 6 個月）</p><ul>
+        <li>IG 追蹤約 1.5 萬成長到近 4 萬</li>
+        <li>開賣通知訂閱 630 人成長到 5,400 人以上</li>
+        <li>從賣不完，變成幾分鐘內完售</li>
+      </ul></div>
+    </div>
+    <div class="tw2"><b>台灣怎麼複製：</b>每週固定一個時段在 IG 或 LINE 開放限量預購，把「怎麼訂」做成置頂貼文。</div>
+    <p class="src">資料出處：Hotplate 官方部落格：Gooey Center 案例</p>
+  </div>
+
+  <h3 class="h3">國際案例｜日本 東京 × 韓國 首爾：把「訂位」和「留評論」變簡單，業績跟著長</h3>
+  <div class="grid g2">
+    <div class="card b">
+      <h3>🇯🇵 サンラサー</h3>
+      <p>東新宿香料咖哩專門店，1 店</p>
+      <p><b>做法：</b>原本用社群私訊接訂位、用試算表管理，改用訂位管理系統（トレタ），漏接的訂位變少。</p>
+      <p><b>成效：</b>營收成長 20%，客單價與翻桌率都提高</p>
+    </div>
+    <div class="card g">
+      <h3>🇰🇷 My Name Is 新堂</h3>
+      <p>首爾新堂洞，白天咖啡、晚上酒吧</p>
+      <p><b>做法：</b>改成 QR 桌邊點餐，點完餐的流程自然帶到寫評論，不用另外拜託；點飲料時同時推薦搭配甜點。</p>
+      <p><b>成效：</b>評論從一個月約 10 則，變成一天 10 則以上；甜點點單比例增加 20% 以上</p>
+    </div>
+  </div>
+  <div class="callout ok"><b>台灣怎麼複製：</b>IG 簡介與 Google 商家放上線上訂位連結；結帳完成頁或桌卡直接放評論 QR code。</div>
+  <p class="muted-note">資料出處：トレタ DX Case Studies 導入事例集；Toss Place 案例：My Name Is 新堂（2026/1/9）</p>
+
+  <h3 class="h3">📱 手機拿出來：客人 3 秒找得到「怎麼來、怎麼訂」嗎？</h3>
+  <div id="find5Host"></div>
+  <div class="callout" id="find5Verdict">五項勾完，這裡會告訴你現在該加曝光還是先補洞。</div>
+  <div class="grid g3">
+    <div class="card g"><h3>5 項</h3><p>很好，可以開始加曝光</p></div>
+    <div class="card a"><h3>3 到 4 項</h3><p>有漏洞，先補再投廣告</p></div>
+    <div class="card x"><h3>0 到 2 項</h3><p>先補這裡，效果最快</p></div>
+  </div>
+  <div class="callout warn">請 2 位老闆分享自己做到幾項、最想先補哪一個，分享加分</div>
+
+  <h3 class="h3">🤖 AI 演練 3、4：AI 幫你寫 LINE 推播與 Google 評論回覆</h3>
+  <div class="card o">
+    <h3>📝 情境</h3>
+    <p>週六想推限量 50 份的新品；另外有一則客人抱怨等太久的 2 星評論，不知道怎麼回。</p>
+    <ol style="margin:10px 0 0 20px;font-size:.92rem;line-height:1.9">
+      <li>推播：給 AI 商品、限制、預訂方式</li>
+      <li>請它照「理由、期限、按鈕」寫 3 種語氣</li>
+      <li>評論：貼上評論與星等，請它寫 2 個版本</li>
+      <li>挑一個，改成自己的口氣再發</li>
+    </ol>
+    <div class="hero-btns">
+      <button class="btn btn-primary btn-sm" type="button" onclick="goPrompt('ai3')">🤖 AI 演練 3：LINE 推播 3 種語氣</button>
+      <button class="btn btn-ghost btn-sm" type="button" onclick="goPrompt('ai4')">🤖 AI 演練 4：Google 評論回覆</button>
+    </div>
+  </div>
+  <p class="muted-note" style="margin:14px 0 6px"><b>示範輸出（範例）</b></p>
+  <div class="pushbox">
+    <div class="pt">B 限量搶購版</div>
+    <div class="pb">週六只做 50 份的炙燒牛五花飯，只開放給 LINE 好友，週日賣完就沒有了。回覆「預訂＋人數」，我直接幫你留。</div>
+  </div>
+  <div class="callout"><b>2 星評論回覆：</b>謝謝您特地來用餐，讓您在午餐時間等了 20 分鐘，真的很抱歉。我們已經調整尖峰時段的出餐順序，也開放 LINE 先點餐。方便的話私訊我們，下次來招待您一份小菜。店長 阿明</div>
+
+  <h3 class="h3">這一段的重點</h3>
+  <div class="grid g3">
+    <div class="card"><h3><span class="num">1</span>先補漏洞</h3><p>先補 5 個漏洞，再加曝光，錢才不會流掉。</p></div>
+    <div class="card"><h3><span class="num">2</span>理由、期限、按鈕</h3><p>每一則訊息都要有：理由、期限、一個按鈕。</p></div>
+    <div class="card"><h3><span class="num">3</span>流程越短越好</h3><p>訂位和留評論的流程越短，業績和口碑長得越快。</p></div>
+  </div>
+  <div class="card dk" style="margin-top:13px"><h3>💡 心得</h3><p>客人不是不想來，而是我們沒有給他「現在就來」的理由，和一條好走的路。</p></div>
+</div></section>

@@ -1,0 +1,561 @@
+
+  /* ---------- 6 組提示詞（簡報原文） ---------- */
+  var PROMPTS=[
+    {id:'ai1',g:'① 看對人',t:'AI 演練 1｜從 Google 評論畫出 3 種主力客人',src:'簡報 p.17',b:
+'你是一位有 15 年經驗的台灣餐飲行銷顧問。請根據我提供的店家資料，找出最有機會進店消費的 3 種主力客人。\n【店家資料】\n店名與類型：（例：巷口牛肉麵店，內用 30 席）\n地點與周邊：（例：台中西屯，周邊是辦公大樓與住宅區）\n營業時間與客單價：\n招牌餐點：\n最近 20 則 Google 評論：（直接貼上）\n【請輸出】\n1. 3 種主力客人，每種寫出：一句話描述（在哪裡、是誰、什麼時候來、想要什麼、卡在哪裡）、最常出現的時段、最可能在哪裡發現我們（Google 地圖、IG、LINE、外送平台、路過）、最能打動他的一句話。\n2. 從評論整理出客人最常稱讚的 3 個關鍵字，以及最常抱怨的 2 件事。\n3. 建議我優先經營哪一種客人，並說明理由。\n請用表格呈現，語氣口語，不要用專業術語。',
+     tip:'評論直接從 Google 地圖複製貼上就好，客人的名字不用貼。AI 挑出來的那一群人，回到 ① 的 120 秒挑戰寫成一句話。'},
+    {id:'ai2',g:'② 被看見',t:'AI 演練 2｜7 天老闆出鏡短影音腳本',src:'簡報 p.35',b:
+'你是餐飲短影音企劃。請幫我規劃 7 天的短影音，每支 30 秒內，用手機就能拍，由老闆本人出鏡。\n【店家資料】\n店名與類型：\n主力客人：（貼上你的一句話客群）\n招牌餐點與製作亮點：（例：每天早上 6 點開始熬湯 4 小時）\n店的故事：（例：開店原因、家人一起經營）\n這週想推的品項或活動：\n【7 天題材】\n第 1 天 備料過程｜第 2 天 招牌餐點特寫與切面｜第 3 天 老闆開店故事｜第 4 天 客人真實反應或常見問題｜第 5 天 熟客才知道的隱藏吃法｜第 6 天 幕後日常（採買、收店、員工）｜第 7 天 本週限定或下週預告\n【每支請輸出】\n影片標題（10 字內）、前 3 秒開場白、分鏡（3 到 5 個畫面，寫出拍什麼、說什麼）、字幕重點、結尾行動呼籲（例：留言、加 LINE、Google 地圖導航）、建議發布時間。\n請用表格呈現。',
+     tip:'7 支不用一次拍完，挑 3 支最好拍的這週先拍。主力客人那一格，直接貼 ① 組好的一句話。'},
+    {id:'ai3',g:'③ 走進來',t:'AI 演練 3｜LINE 限量推播文案（3 種語氣）',src:'簡報 p.47',b:
+'你是熟悉 LINE 官方帳號的餐飲行銷顧問。請幫我寫 3 則 LINE 推播文案，目的是讓好友今天或這週末就來店或預訂。\n【店家資料】\n店名：\n這次要推的商品或活動：（例：週六限量 50 份的炙燒牛五花飯）\n限制條件：（例：限量 50 份、只到週日、只給 LINE 好友）\n預訂方式：（例：點選單的「立即預訂」，或回覆「預訂＋人數」）\n推播對象：（例：住在店附近 3 公里內的好友）\n【寫作規則】\n1. 第一行 15 字內，一看就知道有什麼好康。\n2. 一定要有「理由、期限、怎麼訂」三個元素。\n3. 全文 120 字內，最多 2 個表情符號。\n4. 結尾一句明確行動，例如「回覆 預訂 兩個字就幫你留」。\n請給我 3 種語氣：A 溫暖熟客版、B 限量搶購版、C 天氣情境版（例：下雨天、寒流來）。',
+     tip:'挑好一版之後，貼回 ③ 的「推播檢查」再確認一次理由、期限、按鈕都有。'},
+    {id:'ai4',g:'③ 走進來',t:'AI 演練 4｜Google 評論回覆（好評與負評）',src:'簡報 p.48',b:
+'你是餐廳老闆的客服助理。請幫我回覆下面這則 Google 評論。\n【店家資料】\n店名：\n招牌餐點：\n可以提供的補償方式：（例：下次來店招待一份小菜）\n【評論內容】\n（直接貼上評論與星等）\n【回覆規則】\n1. 先感謝，再具體回應評論提到的細節，不要用罐頭句。\n2. 如果是負評：先道歉，說明我們會怎麼改善，不爭辯、不指責客人，邀請客人私訊或來電讓我們處理。\n3. 如果是好評：自然帶出一道推薦菜，或下次來可以試的吃法。\n4. 120 字內，口語、有溫度，不要出現「親」「唷」這類網拍用語。\n5. 最後署名「店長 ○○」。\n請給我 2 個版本讓我挑。',
+     tip:'AI 寫的「我們已經改善了什麼」一定要是真的有做的事。沒做到的改善不要寫上去，客人下次來會發現。'},
+    {id:'ai5',g:'④ 再回來',t:'AI 演練 5｜熟客回訪活動企劃＋獲利試算',src:'簡報 p.61',b:
+'你是餐飲熟客經營顧問。請幫我設計一個「讓客人 30 天內再回來」的 LINE 熟客活動，並試算會不會賺錢。\n【店家資料】\n類型與客單價：（例：日式定食店，客單價 280 元）\n平均每天來客數：\n毛利率：（例：食材成本約 35%）\nLINE 官方帳號好友數：\n目前有沒有集點卡：\n【請輸出】\n1. 活動設計：加好友的理由、第一次回訪的誘因、集點規則（第一張卡門檻要很低）、熟客限定福利。\n2. 推播節奏：一個月推幾次、每次推什麼、星期幾幾點推。\n3. 試算表：假設 5%、10%、20% 的好友回訪，各多賺多少毛利？扣掉優惠成本後還剩多少？\n4. 要追蹤的 3 個數字，以及在店裡怎麼記錄。\n試算結果請用表格呈現，數字要算清楚。',
+     tip:'AI 算的試算表，用 ④ 再回來的「熟客活動獲利試算」對一次。兩邊對不上，以試算器為準。'},
+    {id:'ai6',g:'⑤ 換你的店',t:'AI 演練 6｜把你的店貼進來，AI 幫你排第一招和文案',src:'簡報 p.75',b:
+'你是有 15 年經驗的台灣餐飲行銷顧問。請根據我的店，告訴我這週最該先做的一招網路行銷，並寫好可以直接用的內容。\n【我的店】\n店名與類型：（小吃外帶、火鍋燒肉、早午餐咖啡、準備開店、多店連鎖，選一個）\n地點與商圈：（例：新北三重，住宅區，附近有市場）\n招牌商品：\nGoogle 星等與評論數：\n現在有在用的平台：（Google 商家、FB、IG、LINE 官方帳號、外送平台）\n【請輸出】\n1. 我的店最容易漏客的是哪一道門（看對人、被看見、走進來、再回來），用一句話說明理由。\n2. 這週就能做的一招，寫出 3 個步驟。\n3. 一則 LINE 推播：要有理由、期限、按鈕，120 字內，最多 2 個表情符號。\n4. 一支 30 秒短影音腳本：前 3 秒開場白、3 個畫面、結尾行動呼籲。\n5. 要追蹤的 1 個數字，以及在店裡怎麼記錄。\n語氣口語，不要專業術語。',
+     tip:'先做 🩺 健檢，知道自己最弱的那道門，再把結果一起貼給 AI，建議會更準。'}
+  ];
+
+  /* ---------- 狀態 ---------- */
+  var state={nick:'',brand:'',cat:'',quiz:{},w1:[],w2:[],gbp:[],find5:[],health:[],todo:[],
+    aud:{},push:{},mv:{},roi:{},type:'',drafts:'',tools:{}};
+  try{var raw=localStorage.getItem(STORE);if(raw){var ps=JSON.parse(raw);if(ps.cohort===COHORT){
+    ['nick','brand','cat','type','drafts'].forEach(function(k){if(ps[k])state[k]=ps[k];});
+    ['quiz','aud','push','mv','roi','tools'].forEach(function(k){if(ps[k]&&typeof ps[k]==='object')state[k]=ps[k];});
+    ['w1','w2','gbp','find5','health','todo'].forEach(function(k){if(Array.isArray(ps[k]))state[k]=ps[k];});
+  }}}catch(e){}
+  function save(){try{localStorage.setItem(STORE,JSON.stringify(Object.assign({cohort:COHORT},state)));}catch(e){}}
+  function loggedIn(){return !!state.nick;}
+  function myCode(){return (state.brand?state.brand+'｜':'')+state.nick;}
+  function myTeam(){return state.brand||'未填店名';}
+
+  /* ---------- Supabase ---------- */
+  function payload(){
+    return {course:COURSE,cohort:COHORT,code:myCode(),name:state.nick,office:state.brand||'',
+      commit_checks:state.health,commit_text:'',
+      quiz:Object.assign({},state.quiz,{brand:state.brand,cat:state.cat,w1:state.w1,w2:state.w2,gbp:state.gbp,
+        find5:state.find5,health:state.health,todo:state.todo,aud:state.aud,push:state.push,mv:state.mv,roi:state.roi,type:state.type}),
+      score:0,cert_at:null};
+  }
+  async function syncRow(){
+    if(!loggedIn())return false;
+    try{
+      var r=await fetchT(SUPA_URL+'/rest/v1/lw_line_students?on_conflict=course,cohort,code',{method:'POST',
+        headers:Object.assign(H(),{'Content-Type':'application/json',Prefer:'resolution=merge-duplicates,return=minimal'}),
+        body:JSON.stringify(payload())},15000);
+      return r.ok;
+    }catch(e){return false;}
+  }
+  async function fetchMe(ms){
+    if(!loggedIn())return null;
+    try{
+      var u=SUPA_URL+'/rest/v1/lw_line_students?course=eq.'+encodeURIComponent(COURSE)+'&cohort=eq.'+encodeURIComponent(COHORT)+'&code=eq.'+encodeURIComponent(myCode())+'&select=quiz';
+      var r=await fetchT(u,{headers:H()},ms||12000); var rows=await r.json();
+      return Array.isArray(rows)&&rows[0]?rows[0]:null;
+    }catch(e){return null;}
+  }
+  async function insertSub(o){
+    var r=await fetchT(SUPA_URL+'/rest/v1/lw_workshop_submissions',{method:'POST',headers:Object.assign(H(),{'Content-Type':'application/json',Prefer:'return=minimal'}),body:JSON.stringify(o)},20000);
+    if(!r.ok){var t='';try{t=await r.text();}catch(e){} throw new Error('送出失敗 '+r.status+' '+t.slice(0,60));}
+  }
+
+  /* ---------- 基礎 ---------- */
+  function switchTab(t){
+    document.querySelectorAll('.tab-section').forEach(function(s){s.classList.toggle('active',s.getAttribute('data-tab')===t);});
+    document.querySelectorAll('.tab-btn').forEach(function(b){var on=b.getAttribute('data-tab')===t;b.classList.toggle('on',on);b.setAttribute('aria-selected',on?'true':'false');});
+    var ab=document.querySelector('.tab-btn.on'); if(ab&&ab.scrollIntoView)try{ab.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});}catch(e){}
+    window.scrollTo({top:0,behavior:'smooth'});
+    track('tab',{tab:t});
+    if(t==='done'){loadSubs();loadBoard();}
+    if(t!=='ai')refreshStats();
+  }
+  window.switchTab=switchTab;
+  function toast(m){var el=document.getElementById('toast');el.textContent=m;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(function(){el.classList.remove('show');},2600);}
+  function copyTxt(btn,txt,okMsg){
+    var done=function(){var o=btn.innerHTML;btn.innerHTML='✓ 已複製';toast(okMsg||'✓ 已複製');setTimeout(function(){btn.innerHTML=o;},1600);};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,function(){fb(txt);done();});}
+    else{fb(txt);done();}
+    function fb(t){var ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);}
+  }
+  function nf(n){return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g,',');}
+
+  /* ---------- 互動題 ---------- */
+  function renderPoll(k){
+    var host=document.getElementById('poll_'+k); if(!host)return;
+    var P=POLLS[k], mine=state.quiz[k], voted=!!mine, n=pollN[k]||0;
+    var html=(P.pt?'<span class="pchip">答對加 '+P.pt+' 分</span>':'<span class="pchip g">破冰</span>')
+      +'<div class="q">'+esc(P.q)+'</div>'+(P.sub?'<div class="qs">'+esc(P.sub)+'</div>':'');
+    P.o.forEach(function(o){
+      var c=(pollAgg[k]&&pollAgg[k][o[0]])||0, pct=n?Math.round(c/n*100):0;
+      html+='<button class="popt'+(mine===o[0]?' mine':'')+'" type="button" data-poll="'+k+'" data-v="'+o[0]+'">'
+        +(voted?'<span class="bar" style="width:'+pct+'%"></span>':'')
+        +'<span class="k">'+o[0]+'</span><span class="lb">'+esc(o[1])+'</span>'
+        +(voted?'<span class="pc">'+pct+'%</span>':'')+'</button>';
+    });
+    html+='<div class="n">'+(voted?('目前 '+n+' 人作答'):'點一個選項作答')+'</div>';
+    if(P.ans){
+      html+='<div class="ansbox'+(voted?' show':'')+'"><div class="a">✅ 正解：'+P.ans+'　'+esc((P.o.filter(function(o){return o[0]===P.ans;})[0]||['',''])[1])+'</div>'
+        +'<p><b>為什麼：</b>'+esc(P.why)+'</p><div class="ext"><b>延伸：</b>'+esc(P.ext)+'</div></div>';
+    }
+    host.innerHTML=html;
+  }
+  function renderAllPolls(){Object.keys(POLLS).forEach(renderPoll);renderReveal();}
+  var peeked={};
+  function renderReveal(){
+    document.querySelectorAll('[data-reveal]').forEach(function(el){
+      var k=el.getAttribute('data-reveal'), on=!!state.quiz[k]||!!peeked[k];
+      el.classList.toggle('show',on);
+    });
+    document.querySelectorAll('[data-peekfor]').forEach(function(el){
+      var k=el.getAttribute('data-peekfor');
+      el.classList.toggle('hide',!!state.quiz[k]||!!peeked[k]);
+    });
+  }
+  async function vote(k,v){
+    if(!loggedIn()){toast('先報到才能作答');openReg();return;}
+    state.quiz[k]=v; save(); renderPoll(k); renderReveal(); updateHud(); track('poll_vote',{poll:k,value:v});
+    await syncRow(); refreshStats();
+  }
+
+  /* ---------- 暖身投票 ---------- */
+  var warmRound='w1';
+  function renderWarm(){
+    var h=document.getElementById('warmHost'); if(!h)return;
+    var html='<div class="chips" style="margin-bottom:11px">'
+      +'<button class="chip'+(warmRound==='w1'?' on':'')+'" type="button" data-wr="w1">第一輪　有在做的</button>'
+      +'<button class="chip lite'+(warmRound==='w2'?' on':'')+'" type="button" data-wr="w2">第二輪　真的有帶來客人的</button></div>'
+      +'<div class="warmgrid">';
+    WARM.forEach(function(w){
+      var a=state[warmRound].indexOf(w[0])>=0;
+      var c1=warmAgg.w1[w[0]]||0, c2=warmAgg.w2[w[0]]||0;
+      html+='<button class="warm'+(a?(warmRound==='w1'?' on':' on2'):'')+'" type="button" data-warm="'+w[0]+'">'
+        +'<b>'+w[0]+'　'+esc(w[1])+'</b><small>'+esc(w[2])+'</small>'
+        +'<span class="wn">有在做 '+c1+' 人・有帶客 '+c2+' 人</span></button>';
+    });
+    html+='</div><p class="muted-note" style="margin-top:8px">目前 '+warmN+' 人投票。'
+      +(warmRound==='w1'?'點完換第二輪。':'第二輪人數比第一輪少很多的那一項，就是「有做但沒帶客」的地方。')+'</p>';
+    h.innerHTML=html;
+  }
+  async function toggleWarm(letter){
+    if(!loggedIn()){toast('先報到才能投票');openReg();return;}
+    var arr=state[warmRound], i=arr.indexOf(letter);
+    if(i>=0)arr.splice(i,1); else arr.push(letter);
+    save(); renderWarm(); track('warm_vote',{round:warmRound,v:letter});
+    await syncRow(); refreshStats();
+  }
+
+  /* ---------- 勾選清單 ---------- */
+  function renderChecks(hostId,arr,key,withNum,groupIdx){
+    var h=document.getElementById(hostId); if(!h)return;
+    var html='', lastG='';
+    arr.forEach(function(it,i){
+      if(groupIdx&&it[0]!==lastG){lastG=it[0];html+='<p class="muted-note" style="margin:12px 0 6px;font-weight:800;color:var(--org-d)">'+esc(it[0])+'</p>';}
+      var title=groupIdx?it[1]:it[0], sub=groupIdx?'':it[1];
+      html+='<label class="chk'+(state[key][i]?' on':'')+'"><input type="checkbox" data-ck="'+key+'" data-i="'+i+'" '+(state[key][i]?'checked':'')+'>'
+        +(withNum?'<span class="d">'+(i+1)+'</span>':'')
+        +'<span class="t">'+esc(title)+(sub?'<small>'+esc(sub)+'</small>':'')+'</span></label>';
+    });
+    h.innerHTML=html;
+  }
+  function gbpVerdict(){
+    var el=document.getElementById('gbpVerdict'); if(!el)return;
+    var miss=GBP.map(function(g,i){return state.gbp[i]?null:g[0];}).filter(Boolean);
+    var d=GBP.length-miss.length;
+    el.className='callout'+(d===GBP.length?' ok':(d>=4?' warn':''));
+    el.innerHTML=d===GBP.length?'<b>✅ 七項都做到了。</b>接下來比的是持續：每週一則貼文、每則評論都回。'
+      :(d?'<b>做到 '+d+' / 7 項。</b>先補這幾項：'+miss.map(esc).join('、')+'。營業時間和行動按鈕最優先，客人白跑一趟最傷評價。'
+          :'七項勾完，這裡會告訴你先補哪一項。');
+  }
+  function find5Verdict(){
+    var el=document.getElementById('find5Verdict'); if(!el)return;
+    var d=state.find5.filter(Boolean).length;
+    var any=state.find5.some(function(x){return x===true||x===false;});
+    if(!d&&!any){el.className='callout';el.textContent='五項勾完，這裡會告訴你現在該加曝光還是先補洞。';return;}
+    el.className='callout'+(d===5?' ok':(d>=3?' warn':' bad'));
+    el.innerHTML=d===5?'<b>✅ 5 項都做到：很好，可以開始加曝光。</b>'
+      :(d>=3?'<b>⚠️ 做到 '+d+' 項：有漏洞，先補再投廣告。</b>'
+             :'<b>🚨 做到 '+d+' 項：先補這裡，效果最快。</b>現在加曝光，客人會從漏洞流走。');
+  }
+  function healthCalc(){
+    var el=document.getElementById('healthOut'); if(!el)return;
+    var score=state.health.filter(Boolean).length;
+    var groups={};
+    HEALTH.forEach(function(h,i){groups[h[0]]=groups[h[0]]||{n:0,miss:0};groups[h[0]].n++;if(!state.health[i])groups[h[0]].miss++;});
+    var order=['看對人','被看見','走進來','再回來'], worst=null, wr=-1;
+    order.forEach(function(g){var r=groups[g].miss/groups[g].n;if(r>wr){wr=r;worst=g;}});
+    var lv=score>=8?['穩健型','ok','基本功到位。下一步做分眾推播、廣告放大，把好的做法變成系統。']
+      :(score>=5?['有破口','warn','找出沒打勾的那一組，先補最前面的一道門，再加曝光。']
+                :['急需健檢','bad','現在加曝光，客人會從漏洞流走。建議先做一次完整診斷。']);
+    var html='<div class="callout '+lv[1]+'" style="margin-top:12px"><div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">'
+      +'<div class="scorebig">'+score+'<span style="font-size:1rem;color:var(--mute)"> / 10 分</span></div>'
+      +'<div><div class="big">'+lv[0]+'</div><p style="margin-top:3px">'+lv[2]+'</p></div></div>';
+    if(score<10&&worst){
+      html+='<p style="margin-top:10px">各道門沒打勾的數量：'+order.map(function(g){return g+' '+groups[g].miss+' 項';}).join('、')
+        +'。<b>你最先要補的是「'+worst+'」。</b></p>'
+        +'<div class="hero-btns" style="margin-top:8px"><button class="btn btn-primary btn-sm" type="button" onclick="switchTab(\''+DOORTAB[worst]+'\')">回去看「'+worst+'」這一段 →</button></div>';
+    }
+    html+='</div>';
+    el.innerHTML=html;
+  }
+  function healthText(){
+    var score=state.health.filter(Boolean).length;
+    var miss=HEALTH.map(function(h,i){return state.health[i]?null:('【'+h[0]+'】'+h[1]);}).filter(Boolean);
+    return ['【餐廳網路行銷健檢】'+(state.brand?state.brand+'｜':'')+(state.nick||''),
+      '分數：'+score+' / 10','',
+      '還沒做到的：'].concat(miss.length?miss:['（全部做到）']).concat(['','美食映象餐飲學院｜餐廳有曝光，為什麼客人還是不來？']).join('\n');
+  }
+  function todoOut(){
+    var el=document.getElementById('todo7Out'); if(!el)return;
+    var picks=TODO7.map(function(t,i){return state.todo[i]?t[0]:null;}).filter(Boolean);
+    el.className='callout'+(picks.length>=3?' ok':'');
+    el.innerHTML=picks.length?('<b>這週的待辦（'+picks.length+' 件）：</b>'+picks.map(esc).join('、')+(picks.length>3?'。挑 3 件就好，做完再加。':'。'))
+      :'勾三件，就是你這週的待辦。';
+  }
+
+  /* ---------- 一句話客群 ---------- */
+  var AUDDEMO={where:'西屯辦公大樓',who:'上班族',when:'午休只剩 40 分鐘',want:'一碗熱騰騰、份量夠的牛肉麵',block:'怕排隊等太久、回公司遲到'};
+  function audText(){
+    var g=function(k){return (state.aud[k]||'').trim();};
+    if(!['where','who','when','want','block'].some(function(k){return g(k);}))return '';
+    return '在'+(g('where')||'＿＿')+'的'+(g('who')||'＿＿')+'，在'+(g('when')||'＿＿')+'的時候，想要'+(g('want')||'＿＿')+'，但是'+(g('block')||'＿＿')+'。';
+  }
+  function audCalc(){var el=document.getElementById('audOut');if(!el)return;var t=audText();el.textContent=t||'五格填完，這裡會組成你的一句話客群。';}
+
+  /* ---------- 推播組裝與檢查 ---------- */
+  var PUSHDEMO={item:'炙燒牛五花飯',reason:'週六限定，只做 50 份，只給 LINE 好友',limit:'週日賣完就沒有了',btn:'回覆「預訂＋人數」，我直接幫你留'};
+  function pushText(){
+    var g=function(k){return (state.push[k]||'').trim();};
+    if(!['item','reason','limit','btn'].some(function(k){return g(k);}))return '';
+    var l1=(g('item')?'【'+g('item')+'】':'')+g('reason');
+    return [l1,g('limit'),g('btn')].filter(Boolean).join('\n');
+  }
+  function pushCalc(){
+    var el=document.getElementById('pushOut'); if(!el)return;
+    var t=pushText();
+    if(!t){el.textContent='四格填完，這裡會排成一則推播。';return;}
+    var miss=[['reason','理由'],['limit','期限'],['btn','按鈕']].filter(function(x){return !(state.push[x[0]]||'').trim();}).map(function(x){return x[1];});
+    var len=t.replace(/\s/g,'').length;
+    el.textContent=t+'\n\n'+(miss.length?'⚠️ 還缺：'+miss.join('、'):'✅ 理由、期限、按鈕都有了')+'　｜　'+len+' 字'+(len>120?'（超過 120 字，手機上會被摺起來）':'');
+  }
+  function checkPush(t){
+    t=(t||'').trim();
+    var r=/限量|限定|新品|新口味|只給|好友|寒流|下雨|雨天|節|季|只做|招待|免費|送|折|優惠|加點|試吃|開賣|預購|補貨/.test(t);
+    var l=/只到|截止|為止|前|今天|今晚|明天|明早|週[一二三四五六日末]|星期|\d+\s*天|賣完|限時|倒數|\d{1,2}\s*\/\s*\d{1,2}|\d{1,2}\s*點/.test(t);
+    var b=/回覆|點選|點這|點連結|點選單|預訂|預約|訂位|導航|加\s*LINE|私訊|來電|打電話|選單|連結|https?:\/\//.test(t);
+    return {r:r,l:l,b:b};
+  }
+  function chkRun(){
+    var t=(document.getElementById('chkIn').value||'').trim(), el=document.getElementById('chkOut');
+    if(!t){el.innerHTML='<p class="muted-note">先把推播貼上面那一格。</p>';return;}
+    var c=checkPush(t), pass=[c.r,c.l,c.b].filter(Boolean).length;
+    var row=function(ok,k,tip){return '<div style="margin-bottom:6px">'+(ok?'✅ ':'❌ ')+'<b>'+k+'</b>'+(ok?'':'　<span style="color:#8a5a18">'+tip+'</span>')+'</div>';};
+    el.innerHTML='<div class="callout'+(pass===3?' ok':(pass?' warn':' bad'))+'" style="margin-top:12px"><div class="big">'
+      +(pass===3?'✅ 三個元素都有，可以發了':'⚠️ 三元素過了 '+pass+' / 3')+'</div><div style="margin-top:8px">'
+      +row(c.r,'理由','為什麼要來？加上限量、新品、只給好友，或天氣情境。')
+      +row(c.l,'期限','為什麼是現在？加上「只到週日」「只有 3 天」「今晚」。')
+      +row(c.b,'按鈕','下一步做什麼？例如「回覆 預訂＋人數」「點選單的立即預訂」。')
+      +'</div><p class="muted-note" style="margin-top:6px">這個檢查靠關鍵字判斷，只能當第一道。語氣對不對，還是要自己念一次。</p></div>';
+    track('push_check',{pass:pass});
+  }
+
+  /* ---------- 熟客活動試算 ---------- */
+  function roiCalc(){
+    var el=document.getElementById('roiOut'); if(!el)return;
+    var g=function(id,def){var v=parseFloat((document.getElementById(id)||{}).value);return isNaN(v)?def:Math.max(0,v);};
+    var F=g('roi_friends',1000), A=g('roi_aov',280), C=Math.min(100,g('roi_cost',35)), T=g('roi_treat',40);
+    state.roi={f:F,a:A,c:C,t:T}; save();
+    var per=A*(1-C/100)-T;
+    var rows=[5,10,20].map(function(r){var n=Math.round(F*r/100),rev=n*A,gp=rev*(1-C/100),tc=n*T;return {r:r,n:n,rev:rev,gp:gp,tc:tc,net:gp-tc};});
+    var html='<div class="tw" style="margin-top:12px"><table><tr><th>好友回訪率</th>'+rows.map(function(x){return '<th>'+x.r+'%</th>';}).join('')+'</tr>'
+      +'<tr><td><b>回訪人數</b></td>'+rows.map(function(x){return '<td>'+nf(x.n)+'</td>';}).join('')+'</tr>'
+      +'<tr><td><b>增加營收</b></td>'+rows.map(function(x){return '<td>'+nf(x.rev)+'</td>';}).join('')+'</tr>'
+      +'<tr><td><b>毛利（'+Math.round(100-C)+'%）</b></td>'+rows.map(function(x){return '<td>'+nf(x.gp)+'</td>';}).join('')+'</tr>'
+      +'<tr><td><b>招待成本</b></td>'+rows.map(function(x){return '<td>'+nf(x.tc)+'</td>';}).join('')+'</tr>'
+      +'<tr><td><b>淨增毛利</b></td>'+rows.map(function(x){return '<td style="font-weight:900;color:'+(x.net>=0?'var(--org-d)':'var(--red)')+'">'+nf(x.net)+'</td>';}).join('')+'</tr>'
+      +'</table></div>';
+    html+=per>0?'<p class="muted-note" style="margin-top:8px">每回來一位客人，扣掉食材和招待成本，淨賺約 <b>'+nf(per)+' 元</b>。單位：新台幣。</p>'
+      :'<div class="callout bad" style="margin-top:10px"><b>🚨 招待成本比每位客人的毛利還高。</b>這樣回訪越多虧越多，先把招待成本降到 '+nf(A*(1-C/100))+' 元以下。</div>';
+    el.innerHTML=html;
+  }
+
+  /* ---------- 你是哪一型 ---------- */
+  function renderTypes(){
+    var h=document.getElementById('typePick'); if(!h)return;
+    h.innerHTML=TYPES.map(function(t){return '<button class="chip'+(state.type===t.k?' on':'')+'" type="button" data-type="'+t.k+'">'+esc(t.n)+'</button>';}).join('');
+    var box=document.getElementById('typeResult'), t=TYPES.filter(function(x){return x.k===state.type;})[0];
+    if(!t){box.innerHTML='<p class="muted-note">點上面你的店型，這裡會告訴你最先要顧的門、第一招，以及一則可以直接改的文案。</p>';return;}
+    box.innerHTML='<div class="card o"><h3>'+esc(t.n)+'</h3>'
+      +'<p><b>客人怎麼找到你：</b>'+esc(t.find)+'</p>'
+      +'<p><b>最先顧好的門：</b><span style="color:var(--org-d);font-weight:900">'+esc(t.door)+'</span></p>'
+      +'<p><b>第一招：</b>'+esc(t.move)+'</p>'
+      +'<p class="muted-note">現場同學：'+esc(t.ex)+'</p>'
+      +(t.push?'<div class="pushbox"><div class="pt">可以直接改的 LINE 推播</div><div class="pb" id="type_px">'+esc(t.push)+'</div><div class="pa"><button class="btn btn-ghost btn-sm" type="button" data-copyfrom="type_px">📋 複製這則推播</button></div></div>'
+              :'<div class="callout ok" style="margin-top:10px"><b>這週先做：</b>'+esc(t.act)+'</div>')
+      +'<div class="hero-btns" style="margin-top:10px"><button class="btn btn-primary btn-sm" type="button" id="typeUse">⬇️ 帶進下面的「這週第一招」</button></div></div>';
+  }
+
+  /* ---------- 這週第一招 ---------- */
+  var MVDEMO={type:'火鍋・燒肉・聚餐',door:'走進來',move:'Google 商家補上訂位連結，寒流那天發一則推播',kpi:'回覆「訂位」的人數'};
+  function mvText(){
+    var g=function(k){return (state.mv[k]||'').trim();};
+    if(!['type','door','move','kpi'].some(function(k){return g(k);}))return '';
+    return '我的店是'+(g('type')||'＿＿')+'型，\n最容易漏客的門是'+(g('door')||'＿＿')+'，\n這週我要做的一招是'+(g('move')||'＿＿')+'，\n我要追蹤的數字是'+(g('kpi')||'＿＿')+'。';
+  }
+  function mvCalc(){var el=document.getElementById('mvOut');if(!el)return;var t=mvText();el.textContent=t||'四格填完，這裡會組成你這週的第一招。';}
+
+  /* ---------- 提示詞 ---------- */
+  var pFilter='all';
+  function renderPFilter(){
+    var h=document.getElementById('pFilter'); if(!h)return;
+    var gs=['all'].concat(PROMPTS.map(function(p){return p.g;}).filter(function(v,i,a){return a.indexOf(v)===i;}));
+    h.innerHTML=gs.map(function(g){
+      var n=g==='all'?PROMPTS.length:PROMPTS.filter(function(p){return p.g===g;}).length;
+      return '<button class="chip'+(pFilter===g?' on':'')+'" type="button" data-pf="'+esc(g)+'">'+(g==='all'?'全部':esc(g))+' '+n+'</button>';
+    }).join('');
+  }
+  function renderPrompts(){
+    var list=PROMPTS.filter(function(p){return pFilter==='all'||p.g===pFilter;});
+    document.getElementById('promptHost').innerHTML=list.map(function(p){
+      return '<div class="tcard" id="prompt_'+p.id+'"><div class="hd"><h3>'+esc(p.t)+'</h3><span class="badge o">'+esc(p.g)+'</span></div>'
+        +'<div class="pbody" id="pb_'+p.id+'">'+esc(p.b)+'</div>'
+        +(p.tip?'<div class="upg">💡 '+esc(p.tip)+'</div>':'')
+        +'<div class="prow"><button class="btn btn-primary btn-sm" data-cp="'+p.id+'" type="button">📋 複製提示詞</button>'
+        +'<button class="btn btn-ghost btn-sm" data-ex="'+p.id+'" type="button">展開全文</button>'
+        +'<span class="ai-go"><a href="https://chatgpt.com/" target="_blank" rel="noopener">🤖 ChatGPT</a><a href="https://gemini.google.com/" target="_blank" rel="noopener">✨ Gemini</a><a href="https://claude.ai/" target="_blank" rel="noopener">🧠 Claude</a></span>'
+        +'<span class="src">'+esc(p.src)+'</span></div></div>';
+    }).join('');
+  }
+  function goPrompt(id){
+    if(pFilter!=='all'){pFilter='all';renderPFilter();renderPrompts();}
+    switchTab('ai');
+    setTimeout(function(){
+      var el=document.getElementById('prompt_'+id); if(!el)return;
+      el.scrollIntoView({behavior:'smooth',block:'center'});
+      el.style.boxShadow='0 0 0 3px rgba(14,124,128,.4)';
+      setTimeout(function(){el.style.boxShadow='';},2200);
+    },160);
+  }
+  window.goPrompt=goPrompt;
+
+  /* ---------- 報到、交件、統計 ---------- */
+  var subMode='text', subFileObj=null;
+  function renderWho(){
+    ['whoBox','whoBox2'].forEach(function(id){
+      var box=document.getElementById(id); if(!box)return;
+      if(!loggedIn()){box.innerHTML='<div class="callout warn"><b>還沒報到：</b>填個名字就好，答對的分數才記得到你身上。<br><button class="btn btn-primary btn-sm" type="button" style="margin-top:8px" onclick="openReg()">🙋 現在報到</button></div>';return;}
+      box.innerHTML='<div class="who"><span class="g">'+esc(state.nick)+'</span><span>'+esc(state.brand||'未填店名')+(state.cat?' · '+esc(state.cat):'')+'</span><button type="button" onclick="openReg()">改資料</button></div>';
+    });
+  }
+  function safe2(s){return String(s||'').replace(/[^a-zA-Z0-9]/g,'_').slice(0,24)||'x';}
+  async function shrink(file){
+    try{
+      if(file.size<900*1024&&/image\/(png|jpe?g|webp|gif)/i.test(file.type||''))return file;
+      if(!window.createImageBitmap)return file;
+      var bmp=await createImageBitmap(file);
+      var max=1600, r=Math.min(1,max/Math.max(bmp.width,bmp.height));
+      var c=document.createElement('canvas'); c.width=Math.round(bmp.width*r); c.height=Math.round(bmp.height*r);
+      c.getContext('2d').drawImage(bmp,0,0,c.width,c.height);
+      var blob=await new Promise(function(res){c.toBlob(res,'image/jpeg',0.86);});
+      if(blob&&(blob.size<file.size||!/image\/(png|jpe?g|webp|gif)/i.test(file.type||'')))return blob;
+    }catch(e){}
+    return file;
+  }
+  async function uploadImage(file){
+    var ext=/jpeg/.test(file.type||'')?'jpg':((((file.name||'img').split('.').pop())||'png').toLowerCase().replace(/[^a-z0-9]/g,'')||'png');
+    var path=COURSE+'/'+safe2(COHORT)+'/'+Date.now()+'-'+Math.floor(Math.random()*1e7)+'.'+ext;
+    var r=await fetchT(SUPA_URL+'/storage/v1/object/'+BUCKET+'/'+path,{method:'POST',headers:Object.assign(H(),{'Content-Type':file.type||'image/png','x-upsert':'false'}),body:file},60000);
+    if(!r.ok){var t='';try{t=await r.text();}catch(e){} throw new Error('圖片上傳失敗 '+r.status+' '+t.slice(0,60));}
+    return SUPA_URL+'/storage/v1/object/public/'+BUCKET+'/'+path;
+  }
+  function friendlyErr(e){
+    var m=String((e&&e.message)||e||'');
+    try{console.error('[upload]',m);}catch(x){}
+    if(/Failed to fetch|NetworkError|abort|timeout/i.test(m))return '網路不穩，這一份沒送出去。等幾秒再按一次，你打的字還在。';
+    if(/413|too large|exceeded/i.test(m))return '圖片太大傳不上去，改用截圖或換一張小一點的。';
+    return '沒送出去，再按一次試試。連續兩次都失敗就舉手。';
+  }
+  async function sendText(task,content,statusId,okMsg){
+    if(!loggedIn()){toast('先報到才能交件');openReg();return false;}
+    if(!content||!content.trim()){toast('內容還是空的');return false;}
+    try{
+      await insertSub({course:COURSE,cohort:COHORT,team:myTeam(),submitter:state.nick,task:task,kind:'text',content:content});
+      state.tools.uploaded=1; save(); updateHud(); syncRow();
+      if(statusId){var el=document.getElementById(statusId); if(el)el.textContent='✅ 已送出（'+new Date().toLocaleTimeString('zh-TW',{hour12:false,hour:'2-digit',minute:'2-digit'})+'）';}
+      toast(okMsg||'✅ 已送出'); loadSubs(); loadBoard(); return true;
+    }catch(e){ toast(friendlyErr(e)); return false; }
+  }
+  async function doSubmit(){
+    if(!loggedIn()){toast('先報到才能交件');openReg();return;}
+    var btn=document.getElementById('subBtn'), st=document.getElementById('subStatus'), orig=btn.innerHTML;
+    var task=(document.getElementById('subTask')||{}).value||'extra';
+    var base={course:COURSE,cohort:COHORT,team:myTeam(),submitter:state.nick,task:task};
+    btn.disabled=true;
+    try{
+      if(subMode==='text'){
+        var txt=(document.getElementById('subText').value||'').trim();
+        if(!txt){toast('請先填寫內容');btn.disabled=false;btn.innerHTML=orig;return;}
+        btn.innerHTML='送出中…';
+        await insertSub(Object.assign({kind:'text',content:txt},base));
+        document.getElementById('subText').value=''; state.drafts=''; save();
+      }else{
+        if(!subFileObj){toast('請先選一張圖片');btn.disabled=false;btn.innerHTML=orig;return;}
+        btn.innerHTML='處理圖片…';
+        var f2=await shrink(subFileObj);
+        if(f2.size>10*1024*1024){toast('圖片超過 10MB，請換一張或先截圖');btn.disabled=false;btn.innerHTML=orig;return;}
+        btn.innerHTML='上傳中…';
+        var url=await uploadImage(f2);
+        await insertSub(Object.assign({kind:'image',image_url:url},base));
+        subFileObj=null; document.getElementById('subFile').value='';
+        var dz=document.getElementById('dropz'); dz.classList.remove('has');
+        dz.innerHTML='📷 點這裡選一張圖片<br><small>AI 畫面截圖、Google 商家截圖都可以（10MB 內）<br>⚠️ 畫面裡有客人姓名或電話請先遮掉</small>';
+      }
+      state.tools.uploaded=1; save(); updateHud(); syncRow();
+      toast('✓ 已送出！'); st.textContent='✓ 已送出，講師後台看得到了。';
+      track('submit_work',{task:task}); loadSubs(); loadBoard();
+    }catch(e){ var msg=friendlyErr(e); toast(msg); st.textContent='⚠️ '+msg; }
+    btn.disabled=false; btn.innerHTML=orig;
+  }
+  function fmtTime(s){try{return new Date(s).toLocaleString('zh-TW',{hour12:false,month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});}catch(e){return '';}}
+  var TASKNAME={m1:'① 一句話客群',m2:'② 商家或短影音',m3:'③ 推播或評論回覆',m4:'④ 熟客活動',m5:'⑤ 這週第一招',push:'③ 推播',health:'🩺 健檢',extra:'補充'};
+  async function loadSubs(){
+    var host=document.getElementById('subList'); if(!host)return;
+    if(!loggedIn()){host.innerHTML='<p class="muted-note">報到後，這裡會顯示你交過的東西。</p>';return;}
+    try{
+      var u=SUPA_URL+'/rest/v1/lw_workshop_submissions?course=eq.'+encodeURIComponent(COURSE)+'&cohort=eq.'+encodeURIComponent(COHORT)
+        +'&submitter=eq.'+encodeURIComponent(state.nick)+'&select=submitter,task,kind,content,image_url,created_at&order=created_at.asc';
+      var r=await fetchT(u,{headers:H()},15000); var rows=await r.json(); if(!Array.isArray(rows))rows=[];
+      if(!rows.length){host.innerHTML='<p class="muted-note">你還沒交過。做完一份就送一份，不用等到下課。</p>';return;}
+      host.innerHTML=rows.map(function(x){
+        var body=(x.kind==='image')
+          ? '<a href="'+esc(x.image_url)+'" target="_blank" rel="noopener"><img src="'+esc(x.image_url)+'" loading="lazy" alt="交件"></a>'
+          : '<div class="txt">'+esc((x.content||'').slice(0,300))+((x.content||'').length>300?'…':'')+'</div>';
+        return '<div class="subitem"><span class="vN">'+esc(TASKNAME[x.task]||'補充')+'</span><div class="body"><div class="who2">'+fmtTime(x.created_at)+'</div>'+body+'</div></div>';
+      }).join('');
+    }catch(e){host.innerHTML='<p class="muted-note">讀取失敗，稍後再試。</p>';}
+  }
+  async function loadBoard(){
+    var host=document.getElementById('board'); if(!host)return;
+    try{
+      var base='course=eq.'+encodeURIComponent(COURSE)+'&cohort=eq.'+encodeURIComponent(COHORT);
+      var r1=await fetchT(SUPA_URL+'/rest/v1/lw_workshop_submissions?'+base+'&select=submitter,task',{headers:H()},15000);
+      var r2=await fetchT(SUPA_URL+'/rest/v1/lw_line_students?'+base+'&select=code,quiz',{headers:H()},15000);
+      var subs=await r1.json(), st=await r2.json(); if(!Array.isArray(subs))subs=[]; if(!Array.isArray(st))st=[];
+      var who={}; subs.forEach(function(x){who[x.submitter]=1;});
+      var keys=Object.keys(POLLS).filter(function(k){return POLLS[k].ans;});
+      var tot=0,right=0,hs=0,hn=0;
+      st.forEach(function(s){var q=s.quiz||{};keys.forEach(function(k){if(q[k]){tot++;if(q[k]===POLLS[k].ans)right++;}});
+        if(Array.isArray(q.health)&&q.health.some(function(x){return x;})){hn++;hs+=q.health.filter(Boolean).length;}});
+      host.innerHTML=[['報到人數',st.length],['交件人數',Object.keys(who).length],['全場答對率',(tot?Math.round(right/tot*100):0)+'%'],
+        ['健檢平均',hn?(Math.round(hs/hn*10)/10)+' 分':'尚無'],['完成健檢',hn+' 人']]
+        .map(function(x){return '<div class="mb"><div class="pt">'+x[1]+'</div><div class="sm">'+x[0]+'</div></div>';}).join('');
+    }catch(e){ host.innerHTML='<p class="muted-note">統計讀取中…</p>'; }
+  }
+  async function refreshStats(){
+    try{
+      var u=SUPA_URL+'/rest/v1/lw_line_students?course=eq.'+encodeURIComponent(COURSE)+'&cohort=eq.'+encodeURIComponent(COHORT)+'&select=code,quiz';
+      var r=await fetchT(u,{headers:H()},12000); var rows=await r.json(); if(!Array.isArray(rows))return;
+      Object.keys(POLLS).forEach(function(k){pollAgg[k]={};pollN[k]=0;});
+      warmAgg={w1:{},w2:{}}; warmN=0;
+      rows.forEach(function(row){
+        var q=row.quiz||{};
+        Object.keys(POLLS).forEach(function(k){var v=q[k]; if(v){pollAgg[k][v]=(pollAgg[k][v]||0)+1;pollN[k]++;}});
+        var any=false;
+        ['w1','w2'].forEach(function(w){if(Array.isArray(q[w])){q[w].forEach(function(l){warmAgg[w][l]=(warmAgg[w][l]||0)+1;any=true;});}});
+        if(any)warmN++;
+      });
+      var sig=JSON.stringify([pollAgg,pollN,warmAgg,state.quiz,state.w1,state.w2]);
+      if(sig===statSig)return;
+      statSig=sig; renderAllPolls(); renderWarm(); myScore();
+    }catch(e){}
+  }
+  function myScore(){
+    var el=document.getElementById('myScore'); if(!el)return;
+    if(!loggedIn()){el.textContent='報到後顯示。';return;}
+    var keys=Object.keys(POLLS).filter(function(k){return POLLS[k].ans;});
+    var right=keys.filter(function(k){return state.quiz[k]===POLLS[k].ans;});
+    var ans=keys.filter(function(k){return state.quiz[k];}).length;
+    el.innerHTML='<b>'+esc(state.nick)+'</b>（'+esc(state.brand||'未填店名')+'）互動題作答 <b>'+ans+' / '+keys.length+'</b> 題，答對 <b>'+right.length+'</b> 題。'
+      +(right.length===keys.length&&keys.length?'　🎉 全對！':'')
+      +'<br><span class="muted-note">現場舉手答題與上台分享的加分由講師另計。</span>';
+  }
+
+  /* ---------- 報到 ---------- */
+  function openReg(){
+    document.getElementById('regNick').value=state.nick||'';
+    document.getElementById('regBrand').value=state.brand||'';
+    document.getElementById('regCat').value=state.cat||'';
+    var er=document.getElementById('regErr'); er.style.display='none'; er.style.color=''; er.textContent='請填名字或暱稱';
+    document.getElementById('regOverlay').classList.add('show');
+  }
+  window.openReg=openReg;
+  function closeReg(){document.getElementById('regOverlay').classList.remove('show');}
+  async function doReg(){
+    var b=document.getElementById('regBtn'); if(b.disabled)return;
+    var nick=(document.getElementById('regNick').value||'').trim();
+    var brand=(document.getElementById('regBrand').value||'').trim();
+    var cat=document.getElementById('regCat').value||'';
+    var er=document.getElementById('regErr');
+    if(!nick){er.style.display='block';return;}
+    var changed=(state.nick!==nick||state.brand!==brand);
+    state.nick=nick; state.brand=brand; state.cat=cat;
+    if(changed){state.quiz={};}
+    var t=TYPES.filter(function(x){return x.n===cat;})[0]; if(t&&!state.type)state.type=t.k;
+    save();
+    var ob=b.textContent; b.disabled=true; b.textContent='報到中…';
+    er.style.display='block'; er.style.color='var(--mute)'; er.textContent='報到中，網路慢的話最多等 5 秒…';
+    try{
+      var row=await fetchMe(5000);
+      if(row){
+        var q=(row.quiz&&typeof row.quiz==='object')?row.quiz:{};
+        state.quiz=q;
+        ['w1','w2','gbp','find5','health','todo'].forEach(function(k){if(Array.isArray(q[k]))state[k]=q[k];});
+        ['aud','push','mv','roi'].forEach(function(k){if(q[k]&&typeof q[k]==='object')state[k]=q[k];});
+        if(q.type)state.type=q.type;
+      }
+      save(); closeReg(); renderAll(); syncRow(); refreshStats(); loadSubs(); loadBoard();
+      track('reg',{}); try{if(window.fbq)fbq('trackCustom','Register');}catch(e){}
+      toast('✓ 報到完成，'+state.nick);
+    }finally{
+      b.disabled=false; b.textContent=ob;
+      er.style.display='none'; er.style.color=''; er.textContent='請填名字或暱稱';
+    }
+  }
+
+  /* ---------- HUD 與整體渲染 ---------- */
+  function updateHud(){
+    document.getElementById('hud').classList.add('show');
+    var ansd=Object.keys(POLLS).filter(function(k){return POLLS[k].ans&&state.quiz[k];}).length;
+    var fill=function(o,ks){return ks.filter(function(k){return (o[k]||'').trim();}).length;};
+    var steps=(loggedIn()?1:0)
+      +(fill(state.aud,['where','who','when','want','block'])>=4?1:0)
+      +(state.gbp.filter(Boolean).length+state.gbp.filter(function(x){return x===false;}).length>=1?1:0)
+      +(fill(state.push,['reason','limit','btn'])>=3?1:0)
+      +(fill(state.mv,['type','door','move','kpi'])>=3?1:0)
+      +(state.health.some(Boolean)?1:0)
+      +(ansd>=4?1:0)
+      +(state.tools.uploaded?1:0);
+    document.getElementById('hudGp').firstChild.textContent=loggedIn()?(state.nick+' '):'👋 ';
+    document.getElementById('hudGpSub').textContent=loggedIn()?(steps+' / 8 完成'):'點我報到';
+    document.getElementById('hudBar').style.width=(steps/8*100)+'%';
+  }
+  function setVals(prefix,obj,keys){keys.forEach(function(k){var el=document.getElementById(prefix+k);if(el&&obj[k]!==undefined)el.value=obj[k];});}
+  function renderAll(){
+    renderWho(); renderAllPolls(); renderWarm();
+    renderChecks('gbpHost',GBP,'gbp',true); gbpVerdict();
+    renderChecks('find5Host',FIND5,'find5',true); find5Verdict();
+    renderChecks('healthHost',HEALTH,'health',true,true); healthCalc();
+    renderChecks('todo7Host',TODO7,'todo',true); todoOut();
+    renderTypes(); myScore(); updateHud();
+    setVals('aud_',state.aud,['where','who','when','want','block']);
+    setVals('push_',state.push,['item','reason','limit','btn']);
+    setVals('mv_',state.mv,['type','door','move','kpi']);
+    if(state.roi.f!==undefined){var m={f:'friends',a:'aov',c:'cost',t:'treat'};Object.keys(m).forEach(function(k){var el=document.getElementById('roi_'+m[k]);if(el)el.value=state.roi[k];});}
+    var d=document.getElementById('subText'); if(d&&state.drafts)d.value=state.drafts;
+    audCalc(); pushCalc(); mvCalc(); roiCalc();
+    document.querySelectorAll('a[data-own]').forEach(function(a){if(a.getAttribute('data-utm'))return;a.setAttribute('data-utm','1');a.href=siteUTM(a.getAttribute('href'));});
+  }

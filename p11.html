@@ -1,0 +1,113 @@
+
+  /* ---------- 事件綁定 ---------- */
+  document.addEventListener('click',function(e){
+    var t=e.target.closest?e.target.closest('[data-tab],[data-poll],[data-pf],[data-cp],[data-ex],[data-m],[data-wr],[data-warm],[data-peek],[data-copyfrom],[data-type],#typeUse'):null;
+    if(!t)return;
+    if(t.classList.contains('tab-btn')){switchTab(t.getAttribute('data-tab'));return;}
+    if(t.hasAttribute('data-poll')){vote(t.getAttribute('data-poll'),t.getAttribute('data-v'));return;}
+    if(t.hasAttribute('data-pf')){pFilter=t.getAttribute('data-pf');renderPFilter();renderPrompts();return;}
+    if(t.hasAttribute('data-cp')){
+      var p=PROMPTS.filter(function(x){return x.id===t.getAttribute('data-cp');})[0];
+      if(p){copyTxt(t,p.b,'✓ 已複製，貼到 ChatGPT、Gemini 或 Claude');track('copy_prompt',{id:p.id});} return;}
+    if(t.hasAttribute('data-ex')){
+      var b=document.getElementById('pb_'+t.getAttribute('data-ex'));
+      if(b){var op=b.style.maxHeight==='none';b.style.maxHeight=op?'':'none';t.textContent=op?'展開全文':'收起';} return;}
+    if(t.hasAttribute('data-wr')){warmRound=t.getAttribute('data-wr');renderWarm();return;}
+    if(t.hasAttribute('data-warm')){toggleWarm(t.getAttribute('data-warm'));return;}
+    if(t.hasAttribute('data-peek')){peeked[t.getAttribute('data-peek')]=1;renderReveal();track('peek',{q:t.getAttribute('data-peek')});return;}
+    if(t.hasAttribute('data-copyfrom')){
+      var src=document.getElementById(t.getAttribute('data-copyfrom'));
+      if(src){copyTxt(t,src.textContent.trim(),'✓ 已複製，空格的地方記得改成你的店');track('copy_push',{id:t.getAttribute('data-copyfrom')});} return;}
+    if(t.hasAttribute('data-type')){state.type=t.getAttribute('data-type');save();renderTypes();syncRow();track('pick_type',{t:state.type});return;}
+    if(t.id==='typeUse'){
+      var ty=TYPES.filter(function(x){return x.k===state.type;})[0]; if(!ty)return;
+      state.mv.type=ty.n; state.mv.door=ty.d1; if(!state.mv.move)state.mv.move=ty.move;
+      save(); setVals('mv_',state.mv,['type','door','move','kpi']); mvCalc();
+      var el=document.getElementById('mv_move'); if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+      toast('已帶進「這週第一招」，再補上你要追蹤的數字'); return;}
+    if(t.hasAttribute('data-m')){
+      subMode=t.getAttribute('data-m');
+      document.querySelectorAll('#subMode button').forEach(function(x){x.classList.toggle('on',x===t);});
+      document.getElementById('subTextWrap').style.display=subMode==='text'?'':'none';
+      document.getElementById('subImgWrap').style.display=subMode==='image'?'':'none';
+      return;}
+  });
+  document.addEventListener('change',function(e){
+    var el=e.target;
+    if(el.hasAttribute&&el.hasAttribute('data-ck')){
+      var key=el.getAttribute('data-ck'), i=+el.getAttribute('data-i');
+      state[key][i]=el.checked; save();
+      if(key==='gbp'){renderChecks('gbpHost',GBP,'gbp',true);gbpVerdict();}
+      if(key==='find5'){renderChecks('find5Host',FIND5,'find5',true);find5Verdict();}
+      if(key==='health'){renderChecks('healthHost',HEALTH,'health',true,true);healthCalc();}
+      if(key==='todo'){renderChecks('todo7Host',TODO7,'todo',true);todoOut();}
+      updateHud(); syncRow(); return;
+    }
+    if(el.hasAttribute&&el.hasAttribute('data-mv')){state.mv[el.getAttribute('data-mv')]=el.value;save();mvCalc();updateHud();return;}
+  });
+  document.addEventListener('input',function(e){
+    var el=e.target;
+    if(el.hasAttribute&&el.hasAttribute('data-aud')){state.aud[el.getAttribute('data-aud')]=el.value;save();audCalc();updateHud();return;}
+    if(el.hasAttribute&&el.hasAttribute('data-push')){state.push[el.getAttribute('data-push')]=el.value;save();pushCalc();updateHud();return;}
+    if(el.hasAttribute&&el.hasAttribute('data-mv')){state.mv[el.getAttribute('data-mv')]=el.value;save();mvCalc();updateHud();return;}
+    if(/^roi_/.test(el.id)){roiCalc();return;}
+    if(el.id==='subText'){state.drafts=el.value;save();return;}
+  });
+
+  function on(id,fn){var el=document.getElementById(id);if(el)el.addEventListener('click',function(e){e.preventDefault();fn(e,el);});}
+  on('heroReg',function(){loggedIn()?switchTab('door1'):openReg();});
+  on('audDemo',function(){Object.keys(AUDDEMO).forEach(function(k){state.aud[k]=AUDDEMO[k];});save();setVals('aud_',state.aud,['where','who','when','want','block']);audCalc();updateHud();toast('已填入範例，照著改成你的店');});
+  on('audCopy',function(e,el){var t=audText();if(!t){toast('五格至少填一格');return;}copyTxt(el,t);track('copy_aud',{});});
+  on('audSend',function(){var t=audText();if(!t){toast('五格至少填一格');return;}sendText('m1','【一句話客群】\n'+t,'audStatus','✅ 一句話客群已交件');});
+  on('pushDemo',function(){Object.keys(PUSHDEMO).forEach(function(k){state.push[k]=PUSHDEMO[k];});save();setVals('push_',state.push,['item','reason','limit','btn']);pushCalc();updateHud();toast('已填入範例，照著改成你的店');});
+  on('pushCopy',function(e,el){var t=pushText();if(!t){toast('四格至少填一格');return;}copyTxt(el,t);track('copy_pushbuild',{});});
+  on('pushSend',function(){var t=pushText();if(!t){toast('四格至少填一格');return;}sendText('push','【LINE 推播】\n'+t,'pushStatus','✅ 推播已交件');});
+  on('chkBtn',function(){chkRun();});
+  on('chkDemo',function(){document.getElementById('chkIn').value='全品項 9 折，歡迎蒞臨';chkRun();});
+  on('mvDemo',function(){Object.keys(MVDEMO).forEach(function(k){state.mv[k]=MVDEMO[k];});save();setVals('mv_',state.mv,['type','door','move','kpi']);mvCalc();updateHud();toast('已填入範例，照著改成你的店');});
+  on('mvCopy',function(e,el){var t=mvText();if(!t){toast('至少填一格');return;}copyTxt(el,t);track('copy_mv',{});});
+  on('mvSend',function(){var t=mvText();if(!t){toast('至少填一格');return;}sendText('m5','【這週第一招】\n'+t,'mvStatus','✅ 第一招已交件');});
+  on('healthCopy',function(e,el){copyTxt(el,healthText(),'✓ 已複製，可以貼到 LINE 傳給講師');track('copy_health',{});});
+  on('healthSend',function(){sendText('health',healthText(),'healthStatus','✅ 健檢結果已交件');});
+  on('listCopy',function(e,el){
+    copyTxt(el,['【美食映象餐飲學院｜餐廳有曝光，為什麼客人還是不來？】','',
+      '① 看對人：一句話客群＝在哪裡＋是誰＋什麼時候＋想要什麼＋卡在哪裡。評論、點餐紀錄、一句來店暗號，都是免費的客群線索。',
+      '② 被看見：搜尋型靠 Google 商家（資料正確、評論夠多、照片夠新）；滑到型靠短影音（老闆入鏡、天天出現、內容真實）。',
+      '③ 走進來：先補 5 個漏洞再加曝光；每一則訊息都要有理由、期限、一個按鈕。',
+      '④ 再回來：新客靠曝光，熟客靠名單。熟客三件套：名單、理由、節奏。優惠先試算，算得出毛利才是好活動。',
+      '⑤ 換你的店：每一型的店漏客的門不同，先補那一道。','',
+      '明天就能做的 7 件事：更新 Google 商家／回覆最近 20 則評論／結帳遞評論 QR 卡／拍第一支 30 秒老闆影片／IG、LINE、Google 都放訂位按鈕／設計一個加 LINE 好友的理由／結帳時問「怎麼知道我們的？」','',
+      '提示詞與健檢：https://atm301.github.io/restaurant-visit-workshop/'].join('\n'));});
+  on('printBtn',function(){window.print();});
+  on('regBtn',function(){doReg();});
+  on('regSkip',function(){closeReg();});
+  var hudEl=document.getElementById('hud');
+  if(hudEl)hudEl.addEventListener('click',function(){loggedIn()?switchTab('done'):openReg();});
+  var rn=document.getElementById('regNick');
+  if(rn)rn.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();doReg();}});
+  var ro=document.getElementById('regOverlay');
+  if(ro)ro.addEventListener('click',function(e){if(e.target===ro&&loggedIn())closeReg();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&loggedIn())closeReg();});
+
+  var dz=document.getElementById('dropz'), sf=document.getElementById('subFile');
+  if(dz&&sf){
+    dz.addEventListener('click',function(){sf.click();});
+    var pick=function(f){if(!f)return;subFileObj=f;dz.classList.add('has');dz.innerHTML='✅ 已選：'+esc(f.name)+'<br><small>'+(f.size/1024/1024).toFixed(1)+' MB，按下面的「送出」</small>';};
+    sf.addEventListener('change',function(){pick(sf.files&&sf.files[0]);});
+    ['dragover','dragenter'].forEach(function(ev){dz.addEventListener(ev,function(e){e.preventDefault();dz.classList.add('has');});});
+    dz.addEventListener('dragleave',function(){if(!subFileObj)dz.classList.remove('has');});
+    dz.addEventListener('drop',function(e){e.preventDefault();pick(e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0]);});
+  }
+  on('subBtn',function(){doSubmit();});
+
+  /* ---------- 啟動 ---------- */
+  renderPFilter(); renderPrompts(); renderAll();
+  refreshStats(); loadBoard();
+  if(loggedIn()){loadSubs();}
+  setInterval(refreshStats,25000);
+  setTimeout(function(){ if(!loggedIn())openReg(); },1200);
+  document.addEventListener('visibilitychange',function(){if(!document.hidden)refreshStats();});
+})();
+</script>
+</body>
+</html>

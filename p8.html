@@ -1,0 +1,152 @@
+<!-- ===================== 提示詞庫 ===================== -->
+<section class="tab-section" data-tab="ai"><div class="wrap">
+  <span class="sec-tag">整堂課都會用到</span>
+  <h2 class="sec-title">6 組提示詞，<span class="em">複製就能用</span></h2>
+  <p class="lead">貼到 ChatGPT、Gemini 或 Claude 都能用。（　）裡的例子換成你的店，不知道的欄位寫「不確定」，不要讓 AI 自己編。</p>
+  <div class="chips" id="pFilter" style="margin-bottom:14px"></div>
+  <div class="callout warn"><b>AI 給的數字一定要自己再算一次。</b>尤其是 AI 演練 5 的獲利試算，用「④ 再回來」的試算器對一下，兩邊對得上再拿去用。</div>
+  <div id="promptHost"></div>
+</div></section>
+
+<!-- ===================== 健檢與帶走 ===================== -->
+<section class="tab-section" data-tab="done"><div class="wrap">
+  <span class="sec-tag">課後帶走</span>
+  <h2 class="sec-title">餐廳網路行銷健檢：<span class="em">10 題打勾，算算你幾分</span></h2>
+  <p class="lead">每打一個勾算 1 分。沒打勾最多的那一組，就是你最先要補的那道門。</p>
+
+  <div id="whoBox2"></div>
+
+  <div id="healthHost"></div>
+  <div id="healthOut"></div>
+  <div class="hero-btns" style="justify-content:flex-start">
+    <button class="btn btn-primary btn-sm" id="healthCopy" type="button">📋 複製我的健檢結果</button>
+    <button class="btn btn-ghost btn-sm" id="healthSend" type="button">📤 當成交件送出</button>
+    <span class="muted-note" id="healthStatus"></span>
+  </div>
+  <div class="callout ok"><b>把健檢結果傳給講師：</b>掃簡報上的 QR Code 加 LINE，把上面複製的結果貼過去，講師幫你看你的店最該先補哪一道門。</div>
+
+  <h3 class="h3">✅ 明天就能做的 7 件事，挑 3 件這週做完</h3>
+  <div id="todo7Host"></div>
+  <div class="callout" id="todo7Out">勾三件，就是你這週的待辦。</div>
+
+  <h3 class="h3">國際案例總整理 1｜看對人＋被看見：7 家小店的一招</h3>
+  <div class="tw sm"><table>
+    <tr><th>國家</th><th>店家</th><th>一招</th><th>成效</th></tr>
+    <tr><td><b>韓國</b></td><td>南漢江蕎麥冷麵</td><td>老闆日記＋來店暗號</td><td>7 到 8 成來客透過當根上門</td></tr>
+    <tr><td><b>英國</b></td><td>Khamsa</td><td>Google 商家＋邀評論附照片</td><td>單月 39,000 次搜尋</td></tr>
+    <tr><td><b>愛爾蘭</b></td><td>Neti's Cakes</td><td>Google 商家每週貼文</td><td>營收成長 25%</td></tr>
+    <tr><td><b>美國</b></td><td>Clawful</td><td>57 秒老闆故事＋找在地美食帳號擴散</td><td>週末營收 24,000 美元</td></tr>
+    <tr><td><b>美國</b></td><td>Amici Pizza</td><td>拍老闆工作日常</td><td>粉絲近 30 萬，宣布開第 2 家</td></tr>
+    <tr><td><b>西班牙</b></td><td>Churrería Alpuente</td><td>老闆每天拍製作過程</td><td>利潤成長 20% 到 30%</td></tr>
+    <tr><td><b>法國</b></td><td>Maison Louvard</td><td>切面好拍的招牌品</td><td>日銷從 30 個到約 1,000 個</td></tr>
+  </table></div>
+
+  <h3 class="h3">國際案例總整理 2｜走進來＋再回來：8 家小店的一招</h3>
+  <div class="tw sm"><table>
+    <tr><th>國家</th><th>店家</th><th>一招</th><th>成效</th></tr>
+    <tr><td><b>日本</b></td><td>長沼精肉店</td><td>LINE 限量預訂，只推附近好友</td><td>最快 10 分鐘訂滿 100 碗</td></tr>
+    <tr><td><b>韓國</b></td><td>瑞和商會</td><td>雨天推「限時 3 天」優惠</td><td>當天食材全賣光</td></tr>
+    <tr><td><b>美國</b></td><td>Gooey Center</td><td>每週固定時段開賣</td><td>週銷 50 個到 500 個以上</td></tr>
+    <tr><td><b>日本</b></td><td>サンラサー</td><td>訂位系統取代私訊</td><td>營收成長 20%</td></tr>
+    <tr><td><b>韓國</b></td><td>My Name Is 新堂</td><td>QR 點餐順便帶評論</td><td>評論從月 10 則到日 10 則</td></tr>
+    <tr><td><b>日本</b></td><td>魚吉鳥吉</td><td>3 點集點卡＋週一飲料券</td><td>一年 414 人用 LINE 訂位</td></tr>
+    <tr><td><b>美國</b></td><td>Locals Pub</td><td>名單收回自己手上</td><td>一封折扣信 15,000 美元</td></tr>
+    <tr><td><b>韓國</b></td><td>良心燒肉</td><td>追蹤者限定招待</td><td>月營收約為初期 7 倍</td></tr>
+  </table></div>
+  <div class="callout ok"><b>15 家店有個共同點：</b>都不是連鎖，預算也不大，做對方法就有成效。</div>
+  <div class="hero-btns" style="justify-content:flex-start">
+    <button class="btn btn-ghost btn-sm" id="listCopy" type="button">📋 複製今天的重點清單</button>
+    <button class="btn btn-ghost btn-sm" id="printBtn" type="button">🖨️ 列印這一頁</button>
+  </div>
+
+  <h3 class="h3">📤 交作業</h3>
+  <div class="up">
+    <label class="lb2" for="subTask">這是哪一份</label>
+    <select id="subTask">
+      <option value="m1">① 我的一句話客群</option>
+      <option value="m2">② Google 商家或短影音腳本</option>
+      <option value="m3">③ LINE 推播或評論回覆</option>
+      <option value="m4">④ 熟客活動設計</option>
+      <option value="m5">⑤ 我的店這週第一招</option>
+      <option value="extra">其他補充或提問</option>
+    </select>
+    <label class="lb2">上傳方式</label>
+    <div class="modeseg" id="subMode">
+      <button type="button" data-m="text" class="on">✍️ 貼文字</button>
+      <button type="button" data-m="image">📷 上傳圖片</button>
+    </div>
+    <div id="subTextWrap" style="margin-top:11px">
+      <label class="lb2" for="subText">內容</label>
+      <textarea id="subText" placeholder="把 AI 寫好的推播、腳本、評論回覆貼進來都可以。&#10;⚠️ 客人的姓名、電話請先拿掉。"></textarea>
+    </div>
+    <div id="subImgWrap" style="display:none;margin-top:11px">
+      <div class="dropz" id="dropz">📷 點這裡選一張圖片<br><small>AI 畫面截圖、Google 商家截圖都可以（10MB 內）<br>⚠️ 畫面裡有客人姓名或電話請先遮掉</small></div>
+      <input id="subFile" type="file" accept="image/*" style="display:none">
+    </div>
+    <div class="hero-btns" style="margin-top:13px">
+      <button class="btn btn-primary" id="subBtn" type="button">📤 送出</button>
+      <span class="muted-note" id="subStatus"></span>
+    </div>
+  </div>
+
+  <h3 class="h3">我交過的</h3>
+  <div id="subList"></div>
+
+  <h3 class="h3">📊 全場即時統計<span class="pill-live">🟢 即時</span></h3>
+  <div class="mboard" id="board"></div>
+  <div class="callout" id="myScore" style="margin-top:12px">報到後顯示。</div>
+
+  <h3 class="h3">資料出處</h3>
+  <ul class="srcs">
+    <li>看對人：INDY Week〈For Some Small Business Owners, Food TikTok Are the Magic Words〉2022/5/4；Karrot 當根商家成功故事：讓 4,000 名熟客實際到店（2024/6/17）；머니투데이 유니콘팩토리（2024/10/23）。</li>
+    <li>被看見：Google 商家檔案說明：改善 Google 本地排名；Google 商家檔案成功案例：Khamsa；Grow with Google Ireland：Kabo Café、Neti's Cakes；Inc.〈How This TikTok Consultant Engineered a Viral Video to Help a Struggling Restaurant〉2022/4/6；AZFamily（2024/12/2、2025/5/12）；Time Out Barcelona（2023/10/3）；Ara（2022/7/31）；NYT 報導，轉載於 Boston Globe（2024/4/20）；Diari Més（2026/1）。</li>
+    <li>走進來：LINEヤフー for Business 導入事例：長沼精肉店（2021/3/15）；아시아경제 亞洲經濟（2023/9/7）；Hotplate 官方部落格：Gooey Center 案例；トレタ DX Case Studies 導入事例集；Toss Place 案例：My Name Is 新堂（2026/1/9）。</li>
+    <li>再回來：LINE公式アカウント 使い方カタログ：魚吉鳥吉；Popmenu 客戶案例：Locals Pub & Pizzeria；Karrot 當根商家成功故事 EP.11 양심소（2023/10/13）、EP.06 원레이（2023/3/31）；WSAV（2021/7/23）、WSAV 歇業報導（2023/10/14）；原味千尋 雙十活動數據（2026/10/04 到 10/12）。</li>
+    <li>換你的店：現場同學店家資料取自 Google 地圖、Instagram、Facebook 公開頁面（2026/11/10）。</li>
+    <li>本頁「示範輸出（範例）」與試算器的預設數字，都是教學用的範例。</li>
+  </ul>
+
+  <div class="academy" style="margin-top:22px">
+    <h3>謝謝聆聽，一起把客人帶進店</h3>
+    <p><b>美食映象餐飲學院</b>　下午 14:00：陳予澤策略長｜餐飲品牌經營與市場布局</p>
+    <p style="font-size:.86rem;margin-top:10px">上午場講師 何佳勳｜圭話行銷。想更快看到效果：網路行銷健檢與策略、Google 商家與評論經營、短影音與社群企劃、LINE 熟客與廣告投放，都可以一起討論。</p>
+  </div>
+</div></section>
+
+<footer>
+  <div class="wrap">
+    <div><b>美食映象餐飲學院</b>｜餐廳有曝光，為什麼客人還是不來？餐飲網路行銷與顧客轉換（2026.11.10 上午場）</div>
+    <div class="fl">
+      <a href="https://atmarketing.tw/" target="_blank" rel="noopener" data-own="1">圭話行銷</a>
+      <a href="https://ecom.atmarketing.tw/" target="_blank" rel="noopener" data-own="1">免費 AI 工具箱</a>
+    </div>
+    <div class="muted-note" style="color:#9fc4c1;margin-top:10px">本頁會記錄：你填的名字與店名、互動題答案、勾選的檢查項目、各個填寫器的內容、上傳的文字與圖片。這些資料存放在講師的課程資料庫，課後統一匯出並清除。<b>請勿在本頁填入客人的姓名、電話等個人資料</b>。推播檢查、獲利試算、健檢計分都在你自己的瀏覽器裡計算。本站使用 Google Analytics 與 Meta Pixel 記錄瀏覽行為。</div>
+  </div>
+</footer>
+
+<div class="hud" id="hud" title="我的進度"><div class="bar"><i id="hudBar"></i></div><span class="gp" id="hudGp">👋 <small id="hudGpSub">點我報到</small></span></div>
+
+<div class="overlay" id="regOverlay" role="dialog" aria-modal="true" aria-labelledby="regTitle"><div class="modal">
+  <h2 id="regTitle">🙋 學員報到</h2>
+  <p class="sub">只要名字就好，不用帳號密碼。互動題答對的分數會記在你的名字下。</p>
+  <label for="regNick">你的名字或暱稱 *</label>
+  <input id="regNick" type="text" maxlength="20" placeholder="例如：阿明">
+  <label for="regBrand">店名（選填）</label>
+  <input id="regBrand" type="text" maxlength="30" placeholder="例如：巷口牛肉麵">
+  <label for="regCat">你的店型（選填）</label>
+  <select id="regCat">
+    <option value="">請選擇</option>
+    <option>在地老店・小吃外帶</option>
+    <option>火鍋・燒肉・聚餐</option>
+    <option>早午餐・咖啡・輕食</option>
+    <option>準備開店・小店起步</option>
+    <option>多店・準備加盟</option>
+    <option>供應商・設備・行銷・協會</option>
+    <option>其他</option>
+  </select>
+  <div class="err" id="regErr">請填名字或暱稱</div>
+  <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:14px" id="regBtn" type="button">開始 ▶</button>
+  <a class="skip" href="#" id="regSkip">先逛逛，等等再報到</a>
+</div></div>
+
+<div id="toast" role="status" aria-live="polite"></div>
